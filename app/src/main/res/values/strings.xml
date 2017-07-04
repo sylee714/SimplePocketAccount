@@ -1,0 +1,71 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">Simple Pocket Account</string>
+
+    <!-- Activity names -->
+    <string name="title_activity_expense">Add Expense</string>
+    <string name="title_activity_income">Add Income</string>
+    <string name="title_activity_summary">View Summary</string>
+    <string name="title_activity_choose_date">Choose a Date</string>
+    <string name="title_activity_choose_week">Choose a Week</string>
+    <string name="title_activity_choose_month">Choose a Month</string>
+    <string name="title_activity_choose_year">Choose an Year</string>
+    <string name="title_activity_daily_summary">Daily Summary</string>
+    <string name="title_activity_weekly_summary">Weekly Summary</string>
+    <string name="title_activity_monthly_summary">Monthly Summary</string>
+    <string name="title_activity_yearly_summary">Yearly Summary</string>
+
+    <!-- Field names -->
+    <string name="expense_or_income">Expense/Income</string>
+    <string name="view_chart">View Chart</string>
+    <string name="add_expense">Add Expense</string>
+    <string name="add_income">Add Income</string>
+    <string name="view_summary">View Summary</string>
+    <string name="view_expense">Expense</string>
+    <string name="view_income">Income</string>
+    <string name="expense_total">Expense Total = </string>
+    <string name="income_total">Income Total = </string>
+    <string name="total">Income Total - Expense Total = </string>
+    <string name="category_prompt">Choose a category</string>
+    <string name="type_prompt">Choose a type</string>
+    <string name="amount">Amount</string>
+    <string name="amount_dollar_sign">($)Amount</string>
+    <string name="day">Day</string>
+    <string name="date">Date</string>
+    <string name="dollar_sign">$</string>
+    <string name="submit_button">Submit</string>
+    <string name="type">Type</string>
+    <string name="month">Month</string>
+    <string name="week">Week</string>
+    <string name="year">Year</string>
+
+    <!-- List of categories -->
+    <string-array name="list_category">
+        <item>Housing</item>
+        <item>Utilities</item>
+        <item>Food</item>
+        <item>Clothing</item>
+        <item>Medical/Healthcare</item>
+        <item>Donations/Gifts to Charity</item>
+        <item>Savings and Insurance</item>
+        <item>Entertainment and Recreation</item>
+        <item>Transportation</item>
+        <item>Personal/Debt Payments/Misc</item>
+    </string-array>
+
+    <!-- List of money types -->
+    <string-array name="list_money_type">
+        <item>Cash</item>
+        <item>Check</item>
+        <item>Electronic money</item>
+    </string-array>
+
+    <!-- List of summary types -->
+    <string-array name="list_summary_type">
+        <item>Daily Summary</item>
+        <item>Weekly Summary</item>
+        <item>Monthly Summary</item>
+        <item>Yearly Summary</item>
+    </string-array>
+
+</resources>
