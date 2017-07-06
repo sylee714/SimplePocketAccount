@@ -11,16 +11,24 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+
 /**
  * Created by MingKie on 6/28/2017.
  */
 
 public class IncomeActivity extends AppCompatActivity {
 
+    @BindView(R.id.dayIncomeTextView)
     private TextView currentDay;
+    @BindView(R.id.dateIncomeTextView)
     private TextView currentDate;
+    @BindView(R.id.submitIncomeButton)
     private Button submitButton;
-    private Spinner spinnerMoneyType;
+    @BindView(R.id.typeIncomeSpinner)
+    private Spinner moneyTypeSpinner;
+    @BindView(R.id.incomeBottomNavigation)
+    private BottomNavigationView bottomNavigationView;
     private CurrentDayAndDate currentDayDate;
 
     @Override
@@ -29,15 +37,15 @@ public class IncomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_income);
         // Sets the title of the activity as 'Main'
         setTitle(R.string.title_activity_income);
-
-        currentDay = (TextView) findViewById(R.id.dayTextView);
-        currentDate = (TextView) findViewById(R.id.dateTextView);
+        // Displays current day and date
         currentDayDate = new CurrentDayAndDate(currentDay, currentDate);
-        submitButton = (Button) findViewById(R.id.submitButton);
-        spinnerMoneyType = (Spinner) findViewById(R.id.moneytypeSpinner);
         currentDayDate.setCurrentDayDate();
+        displayBottomBar();
+    }
 
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+    // method: displayBottomBar()
+    // purpose: Displays bottom navigation bar.
+    public void displayBottomBar() {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

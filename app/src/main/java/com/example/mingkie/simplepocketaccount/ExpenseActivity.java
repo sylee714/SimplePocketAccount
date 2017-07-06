@@ -19,33 +19,40 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 @TargetApi(Build.VERSION_CODES.N)
 public class ExpenseActivity extends AppCompatActivity {
 
+    @BindView(R.id.dayExpenseTextView)
     private TextView currentDay;
+    @BindView(R.id.dateExpenseTextView)
     private TextView currentDate;
+    @BindView(R.id.submitExpenseButton)
     private Button submitButton;
-    private Spinner spinnerCategory;
+    @BindView(R.id.typeExpenseSpinner)
+    private Spinner typeSpinner;
+    @BindView(R.id.expenseBottomNavigation)
+    private BottomNavigationView bottomNavigationView;
     private CurrentDayAndDate currentDayDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expense);
+        ButterKnife.bind(this);
         // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_expense);
-        displayBottomBar();
-        currentDay = (TextView) findViewById(R.id.dayTextView);
-        currentDate = (TextView) findViewById(R.id.dateTextView);
+        // Displays current day and date
         currentDayDate = new CurrentDayAndDate(currentDay, currentDate);
-        submitButton = (Button) findViewById(R.id.submitButton);
-        spinnerCategory = (Spinner) findViewById(R.id.categorySpinner);
         currentDayDate.setCurrentDayDate();
-
+        displayBottomBar();
     }
 
+    // method: displayBottomBar()
+    // purpose: Displays bottom navigation bar.
     public void displayBottomBar() {
-        BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {

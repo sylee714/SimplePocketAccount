@@ -17,7 +17,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/dayTextView"
+            android:id="@+id/dayExpenseTextView"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
             android:text="@string/day" />
 
         <TextView
-            android:id="@+id/dateTextView"
+            android:id="@+id/dateExpenseTextView"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/categoryTextView"
+            android:id="@+id/typeExpenseTextView"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,8 +51,8 @@
             android:text="@string/type" />
 
         <Spinner
+            android:id="@+id/typeExpenseSpinner"
             android:layout_marginTop="10dp"
-            android:id="@+id/categorySpinner"
             android:entries="@array/list_category"
             android:prompt="@string/category_prompt"
             android:layout_width="wrap_content"
@@ -71,7 +71,7 @@
         android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/dollarSignTextView"
+            android:id="@+id/dollarSignExpenseTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -80,8 +80,8 @@
             android:textColor="@color/fontColor" />
 
         <EditText
+            android:id="@+id/amountExpenseEditView"
             android:inputType="number"
-            android:id="@+id/amountEditView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -97,12 +97,11 @@
         android:layout_height="0dp" />
 
     <Button
+        android:id="@+id/submitExpenseButton"
         android:layout_weight="6"
-        android:id="@+id/submitButton"
         android:layout_gravity="center"
         android:text="@string/submit_button"
         android:textColor="#FFF"
-
         android:background="@drawable/mybutton"
         android:layout_width="wrap_content"
         android:layout_height="0dp" />
@@ -113,13 +112,13 @@
         android:layout_height="0dp" />
 
     <android.support.design.widget.BottomNavigationView
-        android:id="@+id/main_bottom_navigation"
+        android:id="@+id/expenseBottomNavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:menu="@menu/main_bottom_navigation_bar"
+        app:menu="@menu/bottom_navigation_bar"
         />
 
 </LinearLayout>

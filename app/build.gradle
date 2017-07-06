@@ -29,4 +29,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     // Add library for bottom navigation bar
     compile 'com.android.support:design:25.1.1'
+    // Add ButterKnife
+    compile 'com.jakewharton:butterknife:8.6.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 }
