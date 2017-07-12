@@ -1,21 +1,38 @@
 package com.example.mingkie.simplepocketaccount;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.widget.TextView;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * Created by MingKie on 6/30/2017.
  */
 
 public class YearlySummaryActivity extends AppCompatActivity{
+
+    @BindView(R.id.yearYearlySummary)
+    TextView yearTextView;
+
+    private int year;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yearly_summary);
+
+        ButterKnife.bind(this);
+
         // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_yearly_summary);
+
+        Intent intent = getIntent();
+        year = intent.getIntExtra("year", 0);
+        yearTextView.setText(year + "");
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

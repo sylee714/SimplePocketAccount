@@ -18,20 +18,19 @@
 
         <TextView
             android:id="@+id/typeSummaryTextView"
-            android:textColor="@color/fontColor"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:text="@string/type"
-            android:layout_gravity="center"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/type"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/fontColor" />
 
         <Spinner
             android:id="@+id/summarySpinner"
-            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-        </Spinner>
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"></Spinner>
 
     </LinearLayout>
 

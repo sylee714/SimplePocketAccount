@@ -6,10 +6,10 @@
     <string name="title_activity_expense">Add Expense</string>
     <string name="title_activity_income">Add Income</string>
     <string name="title_activity_summary">View Summary</string>
-    <string name="title_activity_choose_date">Choose a Date</string>
-    <string name="title_activity_choose_week">Choose a Week</string>
-    <string name="title_activity_choose_month">Choose a Month</string>
-    <string name="title_activity_choose_year">Choose an Year</string>
+    <string name="title_activity_select_date">Select Date</string>
+    <string name="title_activity_select_week">Select Week</string>
+    <string name="title_activity_select_month_year">Select Month and Year</string>
+    <string name="title_activity_select_year">Select Year</string>
     <string name="title_activity_daily_summary">Daily Summary</string>
     <string name="title_activity_weekly_summary">Weekly Summary</string>
     <string name="title_activity_monthly_summary">Monthly Summary</string>
@@ -23,9 +23,9 @@
     <string name="view_summary">View Summary</string>
     <string name="view_expense">Expense</string>
     <string name="view_income">Income</string>
-    <string name="expense_total">Expense Total = </string>
-    <string name="income_total">Income Total = </string>
-    <string name="total">Income Total - Expense Total = </string>
+    <string name="expense_total">Expense Total = $</string>
+    <string name="income_total">Income Total = $</string>
+    <string name="total">Income Total - Expense Total = $</string>
     <string name="category_prompt">Choose a category</string>
     <string name="type_prompt">Choose a type</string>
     <string name="amount">Amount</string>
@@ -38,6 +38,16 @@
     <string name="month">Month</string>
     <string name="week">Week</string>
     <string name="year">Year</string>
+    <string name="select_date">Select Date</string>
+    <string name="select_week">Select Week</string>
+    <string name="select_month_year">Select Month and Year</string>
+    <string name="select_year">Select Year</string>
+    <string name="monthYear">Month Year</string>
+
+    <!-- MonthYear Dialog -->
+    <string name="alert_dialog_title">Please Select</string>
+    <string name="positive_button_text">Select</string>
+    <string name="negative_button_text">Cancel</string>
 
     <!-- List of categories -->
     <string-array name="list_category">

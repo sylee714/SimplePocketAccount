@@ -10,12 +10,20 @@ import android.view.MenuInflater;
  */
 
 public class WeeklySummaryActivity extends AppCompatActivity{
+
+    private int[] lastDates;
+    private int weekOfYear;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_summary);
         // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_weekly_summary);
+
+        lastDates = new int[]{31,28,31,30,
+                31,30,31,31,
+                30,31,30,31,};
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

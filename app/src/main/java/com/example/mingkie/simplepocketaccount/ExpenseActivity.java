@@ -1,9 +1,10 @@
 package com.example.mingkie.simplepocketaccount;
 
 import android.annotation.TargetApi;
+import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.icu.text.DateFormat;
-import android.icu.text.DateFormatSymbols;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -11,43 +12,92 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.mingkie.simplepocketaccount.Data.TransactionDBHelper;
+
 import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 @TargetApi(Build.VERSION_CODES.N)
 public class ExpenseActivity extends AppCompatActivity {
 
-    @BindView(R.id.dayExpenseTextView)
-    private TextView currentDay;
     @BindView(R.id.dateExpenseTextView)
-    private TextView currentDate;
+    TextView date;
     @BindView(R.id.submitExpenseButton)
-    private Button submitButton;
+    Button submitButton;
     @BindView(R.id.typeExpenseSpinner)
-    private Spinner typeSpinner;
+    Spinner typeSpinner;
     @BindView(R.id.expenseBottomNavigation)
-    private BottomNavigationView bottomNavigationView;
-    private CurrentDayAndDate currentDayDate;
+    BottomNavigationView bottomNavigationView;
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
+
+    private TransactionDBHelper transactionDBHelper;
+    private Calendar calendar;
+    private int year;
+    private int month;
+    private int dayOfMonth;
+    private int dayOfWeek;
+    private int weekOfMonth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // Shows activity_expense
         setContentView(R.layout.activity_expense);
+        // Lets use Butterknife
         ButterKnife.bind(this);
+        // Instantiate to access the database
+        transactionDBHelper = new TransactionDBHelper(this);
         // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_expense);
-        // Displays current day and date
-        currentDayDate = new CurrentDayAndDate(currentDay, currentDate);
-        currentDayDate.setCurrentDayDate();
+        // Displays current date
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        // Adds 1 to month since it counts from 0 - 11, not 1 - 12
+        month = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+        weekOfMonth = calendar.get(Calendar.WEEK_OF_MONTH);
+        // Sets date to current date which is the default value
+        date.setText(month + 1 + "/" + dayOfMonth + "/" + year);
+        // Displays the bottom navigation bar.
         displayBottomBar();
+        // When mDateSetListener is called
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                date.setText(month + 1 + "/" + dayOfMonth + "/" + year);
+            }
+        };
+    }
+
+    // method: currentDateClicked()
+    // purpose: Sets the date as the chosen date.
+    @OnClick(R.id.dateExpenseTextView)
+    public void currentDateClicked() {
+        DatePickerDialog dialog = new DatePickerDialog(ExpenseActivity.this,
+                android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener,
+                year, month, dayOfMonth);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+    }
+
+    @OnClick(R.id.submitExpenseButton)
+    public void submitButtonClicked() {
+
+    }
+
+    public void insertExpenseTransaction(String transactionType) {
+
     }
 
     // method: displayBottomBar()
