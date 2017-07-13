@@ -1,4 +1,4 @@
-package com.example.mingkie.simplepocketaccount;
+package com.example.mingkie.simplepocketaccount.SelectActivities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.example.mingkie.simplepocketaccount.R;
+import com.example.mingkie.simplepocketaccount.Dialogs.YearDialog;
+import com.example.mingkie.simplepocketaccount.SummaryActivities.YearlySummaryActivity;
 
 import java.util.Calendar;
 

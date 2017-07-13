@@ -1,19 +1,15 @@
-package com.example.mingkie.simplepocketaccount;
+package com.example.mingkie.simplepocketaccount.SelectActivities;
 
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
+import com.example.mingkie.simplepocketaccount.Dialogs.MonthYearDialog;
+import com.example.mingkie.simplepocketaccount.SummaryActivities.MonthlySummaryActivity;
+import com.example.mingkie.simplepocketaccount.R;
 
 import java.util.Calendar;
 

@@ -2,6 +2,10 @@
     <!-- App name -->
     <string name="app_name">Simple Pocket Account</string>
 
+    <!-- Warning messages -->
+    <string name="warning_amount">Enter Amount</string>
+
+
     <!-- Activity names -->
     <string name="title_activity_expense">Add Expense</string>
     <string name="title_activity_income">Add Income</string>

@@ -1,4 +1,4 @@
-package com.example.mingkie.simplepocketaccount;
+package com.example.mingkie.simplepocketaccount.SummaryActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.widget.TextView;
 
+import com.example.mingkie.simplepocketaccount.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -14,25 +16,32 @@ import butterknife.ButterKnife;
  * Created by MingKie on 6/30/2017.
  */
 
-public class YearlySummaryActivity extends AppCompatActivity{
+public class MonthlySummaryActivity extends AppCompatActivity{
 
-    @BindView(R.id.yearYearlySummary)
-    TextView yearTextView;
+    @BindView(R.id.monthYearMonthlySummary)
+    TextView monthYear;
 
     private int year;
+    private int month;
+    private String[] months;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_yearly_summary);
+        setContentView(R.layout.activity_monthly_summary);
 
         ButterKnife.bind(this);
 
         // Sets the title of the activity as 'Add Expense'
-        setTitle(R.string.title_activity_yearly_summary);
-
+        setTitle(R.string.title_activity_monthly_summary);
+        months = new String[]{"January", "February", "March", "April",
+                "May", "June", "July", "August",
+                "September", "October", "November", "December" };
         Intent intent = getIntent();
         year = intent.getIntExtra("year", 0);
-        yearTextView.setText(year + "");
+        month = intent.getIntExtra("month", 0);
+
+        monthYear.setText(months[month] + " " + year);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

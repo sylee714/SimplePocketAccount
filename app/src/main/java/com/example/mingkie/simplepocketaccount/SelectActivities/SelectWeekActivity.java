@@ -1,7 +1,9 @@
-package com.example.mingkie.simplepocketaccount;
+package com.example.mingkie.simplepocketaccount.SelectActivities;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+
+import com.example.mingkie.simplepocketaccount.R;
 
 /**
  * Created by MingKie on 6/30/2017.

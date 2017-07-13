@@ -1,4 +1,4 @@
-package com.example.mingkie.simplepocketaccount;
+package com.example.mingkie.simplepocketaccount.MainActivities;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,6 +12,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import com.example.mingkie.simplepocketaccount.R;
+import com.example.mingkie.simplepocketaccount.SelectActivities.SelectDateActivity;
+import com.example.mingkie.simplepocketaccount.SelectActivities.SelectMonthYearActivity;
+import com.example.mingkie.simplepocketaccount.SelectActivities.SelectWeekActivity;
+import com.example.mingkie.simplepocketaccount.SelectActivities.SelectYearActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,6 +35,7 @@ public class SummaryActivity extends AppCompatActivity {
     Button submitButton;
     @BindView(R.id.summaryBottomNavigation)
     BottomNavigationView bottomNavigationView;
+
     private ArrayAdapter<CharSequence> adapter;
     private String summarySelected;
 
@@ -54,12 +61,10 @@ public class SummaryActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 summarySelected = (String) parent.getItemAtPosition(position);
-
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-
             }
         });
     }
@@ -102,7 +107,7 @@ public class SummaryActivity extends AppCompatActivity {
                 switch (item.getItemId())
                 {
                     case R.id.action_add_expense:
-                        Toast.makeText(SummaryActivity.this, "Action Add Transaction Clicked", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SummaryActivity.this, "Action Add Action Clicked", Toast.LENGTH_SHORT).show();
                         intent = new Intent(SummaryActivity.this, ExpenseActivity.class);
                         startActivity(intent);
                         break;

@@ -1,4 +1,4 @@
-package com.example.mingkie.simplepocketaccount;
+package com.example.mingkie.simplepocketaccount.Dialogs;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,29 +6,24 @@ import android.content.DialogInterface;
 import android.view.View;
 import android.widget.NumberPicker;
 
+import com.example.mingkie.simplepocketaccount.R;
+
 import java.util.Calendar;
 
 /**
  * Created by MingKie on 7/7/2017.
  */
 
-public class MonthYearDialog {
+public class YearDialog {
+
     private static final int MIN_YEAR = 1970;
-
     private static final int MAX_YEAR = 2099;
-
-    private static final String[] PICKER_DISPLAY_MONTHS_NAMES = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
-            "Nov", "Dec" };
-
-    private static final String[] MONTHS = new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September",
-            "October", "November", "December" };
 
     private View view;
     private Activity activity;
     private AlertDialog.Builder builder;
     private AlertDialog pickerDialog;
     private boolean build = false;
-    private NumberPicker monthNumberPicker;
     private NumberPicker yearNumberPicker;
 
     /**
@@ -37,9 +32,9 @@ public class MonthYearDialog {
      * @param activity
      *            the activity
      */
-    public MonthYearDialog(Activity activity) {
+    public YearDialog(Activity activity) {
         this.activity = activity;
-        this.view = activity.getLayoutInflater().inflate(R.layout.activity_month_year_dialog, null);
+        this.view = activity.getLayoutInflater().inflate(R.layout.activity_year_dialog, null);
     }
 
     /**
@@ -51,19 +46,15 @@ public class MonthYearDialog {
      *            the negative listener
      */
     public void build(DialogInterface.OnClickListener positiveButtonListener, DialogInterface.OnClickListener negativeButtonListener) {
-        this.build(-1, -1, positiveButtonListener, negativeButtonListener);
+        this.build(-1, positiveButtonListener, negativeButtonListener);
     }
 
     private int currentYear;
 
-    private int currentMonth;
 
     /**
      * Builds the month year alert dialog.
      *
-     * @param selectedMonth
-     *            the selected month 0 to 11 (sets current moth if invalid
-     *            value)
      * @param selectedYear
      *            the selected year 1970 to 2099 (sets current year if invalid
      *            value)
@@ -72,23 +63,15 @@ public class MonthYearDialog {
      * @param negativeButtonListener
      *            the negative listener
      */
-    public void build(int selectedMonth, int selectedYear, DialogInterface.OnClickListener positiveButtonListener,
+    public void build(int selectedYear, DialogInterface.OnClickListener positiveButtonListener,
                       DialogInterface.OnClickListener negativeButtonListener) {
 
         final Calendar instance = Calendar.getInstance();
-        currentMonth = instance.get(Calendar.MONTH);
         currentYear = instance.get(Calendar.YEAR);
 
-        if (selectedMonth > 11 || selectedMonth < -1) {
-            selectedMonth = currentMonth;
-        }
 
         if (selectedYear < MIN_YEAR || selectedYear > MAX_YEAR) {
             selectedYear = currentYear;
-        }
-
-        if (selectedMonth == -1) {
-            selectedMonth = currentMonth;
         }
 
         if (selectedYear == -1) {
@@ -98,20 +81,12 @@ public class MonthYearDialog {
         builder = new AlertDialog.Builder(activity);
         builder.setView(view);
 
-        monthNumberPicker = (NumberPicker) view.findViewById(R.id.monthNumberPicker);
-        monthNumberPicker.setDisplayedValues(PICKER_DISPLAY_MONTHS_NAMES);
-
-        monthNumberPicker.setMinValue(0);
-        monthNumberPicker.setMaxValue(MONTHS.length - 1);
-
         yearNumberPicker = (NumberPicker) view.findViewById(R.id.yearNumberPicker);
         yearNumberPicker.setMinValue(MIN_YEAR);
         yearNumberPicker.setMaxValue(MAX_YEAR);
 
-        monthNumberPicker.setValue(selectedMonth);
         yearNumberPicker.setValue(selectedYear);
 
-        monthNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         yearNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
         builder.setTitle(activity.getString(R.string.alert_dialog_title));
@@ -134,33 +109,6 @@ public class MonthYearDialog {
     }
 
     /**
-     * Gets the selected month.
-     *
-     * @return the selected month
-     */
-    public int getSelectedMonth() {
-        return monthNumberPicker.getValue();
-    }
-
-    /**
-     * Gets the selected month name.
-     *
-     * @return the selected month name
-     */
-    public String getSelectedMonthName() {
-        return MONTHS[monthNumberPicker.getValue()];
-    }
-
-    /**
-     * Gets the selected month name.
-     *
-     * @return the selected month short name i.e Jan, Feb ...
-     */
-    public String getSelectedMonthShortName() {
-        return PICKER_DISPLAY_MONTHS_NAMES[monthNumberPicker.getValue()];
-    }
-
-    /**
      * Gets the selected year.
      *
      * @return the selected year
@@ -178,24 +126,6 @@ public class MonthYearDialog {
         return currentYear;
     }
 
-    /**
-     * Gets the current month.
-     *
-     * @return the current month
-     */
-    public int getCurrentMonth() {
-        return currentMonth;
-    }
-
-    /**
-     * Sets the month value changed listener.
-     *
-     * @param valueChangeListener
-     *            the new month value changed listener
-     */
-    public void setMonthValueChangedListener(NumberPicker.OnValueChangeListener valueChangeListener) {
-        monthNumberPicker.setOnValueChangedListener(valueChangeListener);
-    }
 
     /**
      * Sets the year value changed listener.
@@ -205,16 +135,6 @@ public class MonthYearDialog {
      */
     public void setYearValueChangedListener(NumberPicker.OnValueChangeListener valueChangeListener) {
         yearNumberPicker.setOnValueChangedListener(valueChangeListener);
-    }
-
-    /**
-     * Sets the month wrap selector wheel.
-     *
-     * @param wrapSelectorWheel
-     *            the new month wrap selector wheel
-     */
-    public void setMonthWrapSelectorWheel(boolean wrapSelectorWheel) {
-        monthNumberPicker.setWrapSelectorWheel(wrapSelectorWheel);
     }
 
     /**

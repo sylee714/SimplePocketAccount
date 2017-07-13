@@ -1,10 +1,13 @@
-package com.example.mingkie.simplepocketaccount;
+package com.example.mingkie.simplepocketaccount.SelectActivities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.CalendarView;
+
+import com.example.mingkie.simplepocketaccount.SummaryActivities.DailySummaryActivity;
+import com.example.mingkie.simplepocketaccount.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

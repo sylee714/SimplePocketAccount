@@ -4,33 +4,28 @@ package com.example.mingkie.simplepocketaccount.Data;
  * Created by MingKie on 7/12/2017.
  */
 
-public class Transaction {
+public class Action {
 
-    private String transactionType;
+    private String actionType;
     private int year;
     private int month;
     private int dayOfMonth;
+    private int dayOfWeek;
+    private int weekOfMonth;
     private int weekOfYear;
     private String type;
-    private int amount;
+    private double amount;
 
-    public Transaction(String transactionType, int year, int month, int dayOfMonth,
-                       int weekOfYear, String type, int amount) {
-        this.transactionType = transactionType;
-        this.year = year;
-        this.month = month;
-        this.dayOfMonth = dayOfMonth;
-        this.weekOfYear = weekOfYear;
-        this.type = type;
-        this.amount = amount;
+    public Action() {
+
     }
 
-    public String getTransactionType() {
-        return transactionType;
+    public String getActionType() {
+        return actionType;
     }
 
-    public void setTransactionType(String transactionType) {
-        this.transactionType = transactionType;
+    public void setActionType(String actionType) {
+        this.actionType = actionType;
     }
 
     public int getYear() {
@@ -57,6 +52,22 @@ public class Transaction {
         this.dayOfMonth = dayOfMonth;
     }
 
+    public int getDayOfWeek() {
+        return dayOfWeek;
+    }
+
+    public void setDayOfWeek(int dayOfWeek) {
+        this.dayOfWeek = dayOfWeek;
+    }
+
+    public int getWeekOfMonth() {
+        return weekOfMonth;
+    }
+
+    public void setWeekOfMonth(int weekOfMonth) {
+        this.weekOfMonth = weekOfMonth;
+    }
+
     public int getWeekOfYear() {
         return weekOfYear;
     }
@@ -73,11 +84,11 @@ public class Transaction {
         this.type = type;
     }
 
-    public int getAmount() {
+    public double getAmount() {
         return amount;
     }
 
-    public void setAmount(int amount) {
+    public void setAmount(double amount) {
         this.amount = amount;
     }
 }
