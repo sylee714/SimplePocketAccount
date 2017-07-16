@@ -42,10 +42,10 @@ public class WeeklySummaryAdapter extends ArrayAdapter<Day> {
         TextView income = (TextView) view.findViewById(R.id.incomeWeeklyListView);
         TextView expense = (TextView) view.findViewById(R.id.expenseWeeklyListView);
 
-        day.setText(data.get(position).getDay() + ", " + data.get(position).getMonth() + "/" +
+        day.setText(data.get(position).getDay() + ", " + (data.get(position).getMonth() + 1) + "/" +
                 data.get(position).getDayOfMonth() + "/" + data.get(position).getYear());
-        income.setText(data.get(position).getIncomeAmount() + "");
-        expense.setText(data.get(position).getExpenseAmount() + "");
+        income.setText(data.get(position).getIncome().getTotalAmount() + "");
+        expense.setText(data.get(position).getExpense().getTotalAmount() + "");
 
         return view;
     }

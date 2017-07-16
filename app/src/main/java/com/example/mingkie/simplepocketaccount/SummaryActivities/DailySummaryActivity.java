@@ -1,16 +1,19 @@
 package com.example.mingkie.simplepocketaccount.SummaryActivities;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.widget.Button;
+import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.mingkie.simplepocketaccount.ArrayAdapters.DailySummaryAdapter;
@@ -19,15 +22,17 @@ import com.example.mingkie.simplepocketaccount.Data.ActionContract;
 import com.example.mingkie.simplepocketaccount.Data.ActionDBHelper;
 import com.example.mingkie.simplepocketaccount.Data.Expense;
 import com.example.mingkie.simplepocketaccount.Data.Income;
+import com.example.mingkie.simplepocketaccount.MainActivities.SummaryActivity;
 import com.example.mingkie.simplepocketaccount.R;
 
-import org.w3c.dom.Text;
-
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by MingKie on 6/25/2017.
@@ -37,28 +42,31 @@ public class DailySummaryActivity extends AppCompatActivity{
 
     @BindView(R.id.dailySummaryDate)
     TextView date;
-
-    @BindView(R.id.actionHistoryListView)
-    ListView actionHistoryListView;
-
     @BindView(R.id.dailySummaryExpenseTotalAmount)
     TextView expenseAmount;
     @BindView(R.id.dailySummaryIncomeTotalAmount)
     TextView incomeAmount;
     @BindView(R.id.dailySummaryNetTotalAmount)
     TextView netAmount;
+    @BindView(R.id.actionHistoryListView)
+    ListView actionHistoryListView;
+
+    private DatePickerDialog.OnDateSetListener mDateSetListener;
 
     private final String INCOME = "Income";
     private final String EXPENSE = "Expense";
 
     private Income income;
     private Expense expense;
-    private int year;
-    private int month;
-    private int dayOfMonth;
+
+    private int selectedYear;
+    private int selectedMonth;
+    private int selectedDayOfMonth;
+
     private double incomeTotal;
     private double expenseTotal;
     private double netTotal;
+
     private List<Action> incomeList;
     private List<Action> expenseList;
     private List<Action> combinedList;
@@ -88,23 +96,54 @@ public class DailySummaryActivity extends AppCompatActivity{
         incomeTotal = 0;
         expenseTotal = 0;
         netTotal = 0;
+
         income = new Income();
         expense = new Expense();
 
-
         Intent intent = getIntent();
-        year = intent.getIntExtra("year", 0);
-        month = intent.getIntExtra("month", 0);
-        dayOfMonth = intent.getIntExtra("dayOfMonth", 0);
+        selectedYear = intent.getIntExtra("year", 0);
+        selectedMonth = intent.getIntExtra("month", 0);
+        selectedDayOfMonth = intent.getIntExtra("dayOfMonth", 0);
+        date.setText((selectedMonth + 1) + "/" + selectedDayOfMonth + "/" + selectedYear);
 
-        date.setText((month + 1) + "/" + dayOfMonth + "/" + year);
+        loadView(loadIncome(), loadExpense());
 
-        loadIncome();
-        loadExpense();
-        loadListView();
+        // When mDateSetListener is called
+        mDateSetListener = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                date.setText(month + 1 + "/" + dayOfMonth + "/" + year);
+                String dateString = date.getText().toString();
+                String[] data = dateString.split("/");
+                //selectedMonth = Integer.parseInt(data[0]) - 1;
+                selectedMonth = month;
+                Log.i("Month", selectedMonth + "");
+                //selectedDayOfMonth = Integer.parseInt(data[1]);
+                selectedDayOfMonth = dayOfMonth;
+                Log.i("Day of Month", selectedDayOfMonth + "");
+                //selectedYear = Integer.parseInt(data[2]);
+                selectedYear = year;
+                Log.i("Year", selectedYear + "");
+                incomeList.clear();
+                expenseList.clear();
+                combinedList.clear();
+                //dailySummaryAdapter.clear();
+                //dailySummaryAdapter.notifyDataSetChanged();
+                loadView(loadIncome(), loadExpense());
+            }
+        };
     }
 
-    private void loadIncome() {
+    @OnClick(R.id.dailySummaryDate)
+    public void dateClicked() {
+        DatePickerDialog dialog = new DatePickerDialog(DailySummaryActivity.this,
+                android.R.style.Theme_DeviceDefault_Dialog, mDateSetListener,
+                selectedYear, selectedMonth, selectedDayOfMonth);
+        dialog.show();
+    }
+
+    private Income loadIncome() {
+        Income income = new Income();
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -124,7 +163,7 @@ public class DailySummaryActivity extends AppCompatActivity{
                 ActionContract.ActionEntry.COLUMN_NAME_YEAR + " = ?" + " and " +
                 ActionContract.ActionEntry.COLUMN_NAME_MONTH + " = ?" + " and " +
                 ActionContract.ActionEntry.COLUMN_NAME_DAYOFMONTH + " = ?";
-        String[] selectionArgs = {INCOME, year + "", month + "", dayOfMonth + ""};
+        String[] selectionArgs = {INCOME, selectedYear + "", selectedMonth + "", selectedDayOfMonth + ""};
 
         Cursor cursor = db.query(
                 ActionContract.ActionEntry.TABLE_NAME,    // The table to query
@@ -137,7 +176,6 @@ public class DailySummaryActivity extends AppCompatActivity{
         );
 
         while(cursor.moveToNext()) {
-
             String actionType = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE));
             String type = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_TYPE));
             int dayOfWeek = cursor.getInt(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_DAYOFWEEK));
@@ -147,41 +185,41 @@ public class DailySummaryActivity extends AppCompatActivity{
 
             Action action = new Action();
             action.setActionType(actionType);
-            action.setYear(year);
-            action.setMonth(month);
-            action.setDayOfMonth(dayOfMonth);
+            action.setYear(selectedYear);
+            action.setMonth(selectedMonth);
+            action.setDayOfMonth(selectedDayOfMonth);
             action.setDayOfWeek(dayOfWeek);
             action.setWeekOfMonth(weekOfMonth);
             action.setWeekOfYear(weekOfYear);
             action.setType(type);
             action.setAmount(amount);
 
-            addIncome(action.getType(), action.getAmount());
+            addIncome(income, action.getType(), action.getAmount());
             Log.i("type: ", action.getType() + "");
             Log.i("amount: ", action.getAmount() + "");
 
             incomeList.add(action);
-
         }
-
         cursor.close();
-
-        /*
-        for (int i = 0; i < incomeList.size(); ++i) {
-            Log.i("Action Type: ", incomeList.get(i).getActionType() + "");
-            Log.i("Year: ", incomeList.get(i).getYear() + "");
-            Log.i("Month: ", incomeList.get(i).getMonth() + "");
-            Log.i("day of month: ", incomeList.get(i).getDayOfMonth() + "");
-            Log.i("day of week: ", incomeList.get(i).getDayOfWeek() + "");
-            Log.i("week of month: ", incomeList.get(i).getWeekOfMonth() + "");
-            Log.i("week of year: ", incomeList.get(i).getWeekOfYear() + "");
-            Log.i("type: ", incomeList.get(i).getType() + "");
-            Log.i("amount: ", incomeList.get(i).getAmount() + "");
-        }
-        */
+        return income;
     }
 
-    private void loadExpense() {
+    private void addIncome(Income income, String type, double amount) {
+        Log.i("Add Income", "Called");
+        if (type.equals("Cash")) {
+            income.addCash(amount);
+            Log.i("Type: ", "Cash");
+        } else if (type.equals("Check")) {
+            income.addCheck(amount);
+            Log.i("Type: ", "Check");
+        } else if (type.equals("Electronic money")) {
+            income.addEMoney(amount);
+            Log.i("Type: ", "E money");
+        }
+    }
+
+    private Expense loadExpense() {
+        Expense expense = new Expense();
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -201,7 +239,7 @@ public class DailySummaryActivity extends AppCompatActivity{
                 ActionContract.ActionEntry.COLUMN_NAME_YEAR + " = ?" + " and " +
                 ActionContract.ActionEntry.COLUMN_NAME_MONTH + " = ?" + " and " +
                 ActionContract.ActionEntry.COLUMN_NAME_DAYOFMONTH + " = ?";
-        String[] selectionArgs = {EXPENSE, year + "", month + "", dayOfMonth + ""};
+        String[] selectionArgs = {EXPENSE, selectedYear + "", selectedMonth + "", selectedDayOfMonth + ""};
 
         Cursor cursor = db.query(
                 ActionContract.ActionEntry.TABLE_NAME,    // The table to query
@@ -214,7 +252,6 @@ public class DailySummaryActivity extends AppCompatActivity{
         );
 
         while(cursor.moveToNext()) {
-
             String actionType = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE));
             String type = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_TYPE));
             int dayOfWeek = cursor.getInt(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_DAYOFWEEK));
@@ -224,40 +261,26 @@ public class DailySummaryActivity extends AppCompatActivity{
 
             Action action = new Action();
             action.setActionType(actionType);
-            action.setYear(year);
-            action.setMonth(month);
-            action.setDayOfMonth(dayOfMonth);
+            action.setYear(selectedYear);
+            action.setMonth(selectedMonth);
+            action.setDayOfMonth(selectedDayOfMonth);
             action.setDayOfWeek(dayOfWeek);
             action.setWeekOfMonth(weekOfMonth);
             action.setWeekOfYear(weekOfYear);
             action.setType(type);
             action.setAmount(amount);
 
-            addExpense(action.getType(), action.getAmount());
+            addExpense(expense, action.getType(), action.getAmount());
             Log.i("Food: ", action.getType().equals("Food") + "");
             Log.i("amount: ", action.getAmount() + "");
 
             expenseList.add(action);
-
         }
-
         cursor.close();
-        /*
-        for (int i = 0; i < expenseList.size(); ++i) {
-            Log.i("Action Type: ", expenseList.get(i).getActionType() + "");
-            Log.i("Year: ", expenseList.get(i).getYear() + "");
-            Log.i("Month: ", expenseList.get(i).getMonth() + "");
-            Log.i("day of month: ", expenseList.get(i).getDayOfMonth() + "");
-            Log.i("day of week: ", expenseList.get(i).getDayOfWeek() + "");
-            Log.i("week of month: ", expenseList.get(i).getWeekOfMonth() + "");
-            Log.i("week of year: ", expenseList.get(i).getWeekOfYear() + "");
-            Log.i("type: ", expenseList.get(i).getType() + "");
-            Log.i("amount: ", expenseList.get(i).getAmount() + "");
-        }
-        */
+        return expense;
     }
 
-    private void addExpense(String type, double amount) {
+    private void addExpense(Expense expense, String type, double amount) {
 
         Log.i("Add Expense", "Called");
 
@@ -272,7 +295,7 @@ public class DailySummaryActivity extends AppCompatActivity{
             Log.i("Type: ", "Food");
         } else if (type.equals("Clothing")){
             expense.addClothing(amount);
-            Log.i("Type: ", "Clothi");
+            Log.i("Type: ", "Clothing");
         } else if (type.equals("Medical/Healthcare")) {
             expense.addMedical(amount);
             Log.i("Type: ", "Medi");
@@ -295,29 +318,18 @@ public class DailySummaryActivity extends AppCompatActivity{
 
     }
 
-    private void addIncome(String type, double amount) {
-        Log.i("Add Income", "Called");
-        if (type.equals("Cash")) {
-            income.addCash(amount);
-            Log.i("Type: ", "Cash");
-        } else if (type.equals("Check")) {
-            income.addCheck(amount);
-            Log.i("Type: ", "Check");
-        } else if (type.equals("Electronic money")) {
-            income.addEMoney(amount);
-            Log.i("Type: ", "E money");
-        }
-
-    }
-
-    private void loadListView() {
+    private void loadView(Income income, Expense expense) {
         expenseTotal = expense.getTotalAmount();
         incomeTotal = income.getTotalAmount();
         netTotal = incomeTotal - expenseTotal;
 
-        expenseAmount.setText(expenseTotal + "");
-        incomeAmount.setText(incomeTotal + "");
-        netAmount.setText(netTotal + "");
+        Double truncatedExpenseTotal = BigDecimal.valueOf(expenseTotal).setScale(4, RoundingMode.HALF_UP).doubleValue();
+        Double truncatedIncomeTotal = BigDecimal.valueOf(incomeTotal).setScale(4, RoundingMode.HALF_UP).doubleValue();
+        Double truncatedNetTotal = BigDecimal.valueOf(netTotal).setScale(4, RoundingMode.HALF_UP).doubleValue();
+
+        expenseAmount.setText(truncatedExpenseTotal + "");
+        incomeAmount.setText(truncatedIncomeTotal + "");
+        netAmount.setText(truncatedNetTotal + "");
 
         combinedList.addAll(expenseList);
         combinedList.addAll(incomeList);
@@ -330,5 +342,17 @@ public class DailySummaryActivity extends AppCompatActivity{
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.summary_action_bar, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.view_summary:
+                startActivity(new Intent(this, SummaryActivity.class));
+                return true;
+            case R.id.view_chart:
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

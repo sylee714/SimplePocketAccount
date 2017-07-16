@@ -97,8 +97,9 @@ public class ExpenseActivity extends AppCompatActivity {
         // Sets date to current date which is the default value
         date.setText(month + 1 + "/" + dayOfMonth + "/" + year);
 
-        adapter = ArrayAdapter.createFromResource(this, R.array.list_category, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.list_category, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         typeSpinner.setAdapter(adapter);
 
 
@@ -107,7 +108,7 @@ public class ExpenseActivity extends AppCompatActivity {
         // Displays the bottom navigation bar.
         displayBottomBar();
 
-        summarySpinnerSetOnItemSelected();
+        expenseSpinnerSetOnItemSelected();
 
 
         // When mDateSetListener is called
@@ -119,7 +120,7 @@ public class ExpenseActivity extends AppCompatActivity {
         };
     }
 
-    public void summarySpinnerSetOnItemSelected() {
+    public void expenseSpinnerSetOnItemSelected() {
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -137,9 +138,9 @@ public class ExpenseActivity extends AppCompatActivity {
     @OnClick(R.id.dateExpenseTextView)
     public void currentDateClicked() {
         DatePickerDialog dialog = new DatePickerDialog(ExpenseActivity.this,
-                android.R.style.Theme_Holo_Light_Dialog_MinWidth, mDateSetListener,
+                android.R.style.Theme_DeviceDefault_Dialog, mDateSetListener,
                 year, month, dayOfMonth);
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
     }
 

@@ -42,24 +42,51 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/typeExpenseTextView"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:id="@+id/categoryExpenseTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:textColor="@color/fontColor"
-            android:text="@string/type" />
+            android:text="@string/category"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/fontColor" />
+
+        <Spinner
+            android:id="@+id/categoryExpenseSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:entries="@array/list_category"
+            android:gravity="center"
+            android:prompt="@string/category_prompt"
+            android:scrollbarSize="30dp"></Spinner>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/paymentMethodExpenseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/payment_method"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/fontColor" />
 
         <Spinner
             android:id="@+id/typeExpenseSpinner"
-            android:layout_marginTop="10dp"
-            android:entries="@array/list_category"
-            android:prompt="@string/category_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:entries="@array/list_category"
             android:gravity="center"
-            android:scrollbarSize="30dp">
-        </Spinner>
+            android:prompt="@string/category_prompt"
+            android:scrollbarSize="30dp"></Spinner>
 
     </LinearLayout>
 
@@ -70,20 +97,20 @@
         android:layout_height="0dp">
 
         <TextView
-            android:visibility="invisible"
-            android:layout_weight="30"
             android:id="@+id/expenseWarning"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="30"
             android:gravity="center"
+            android:text="@string/warning_amount"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="#000000"
-            android:text="@string/warning_amount" />
+            android:visibility="invisible" />
 
         <LinearLayout
-            android:layout_weight="70"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="70"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -108,6 +135,33 @@
                 android:textColorHint="@color/fontColor" />
 
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/notesExpenseTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/notes"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/fontColor" />
+
+        <EditText
+            android:id="@+id/notesExpenseEditTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:prompt="@string/category_prompt"
+            android:scrollbarSize="30dp" />
 
     </LinearLayout>
 

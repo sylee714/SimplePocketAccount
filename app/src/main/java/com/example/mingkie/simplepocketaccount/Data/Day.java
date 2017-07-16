@@ -6,9 +6,10 @@ package com.example.mingkie.simplepocketaccount.Data;
 
 public class Day {
 
-    private double incomeAmount;
-    private double expenseAmount;
+    private Income income;
+    private Expense expense;
     private String day;
+    private int weekOfMonth;
     private int dayOfMonth;
     private int year;
     private int month;
@@ -17,20 +18,20 @@ public class Day {
 
     }
 
-    public double getIncomeAmount() {
-        return incomeAmount;
+    public Income getIncome() {
+        return income;
     }
 
-    public void setIncomeAmount(double incomeAmount) {
-        this.incomeAmount = incomeAmount;
+    public void setIncome(Income income) {
+        this.income = income;
     }
 
-    public double getExpenseAmount() {
-        return expenseAmount;
+    public Expense getExpense() {
+        return expense;
     }
 
-    public void setExpenseAmount(double expenseAmount) {
-        this.expenseAmount = expenseAmount;
+    public void setExpense(Expense expense) {
+        this.expense = expense;
     }
 
     public String getDay() {
@@ -39,6 +40,14 @@ public class Day {
 
     public void setDay(String day) {
         this.day = day;
+    }
+
+    public int getWeekOfMonth() {
+        return weekOfMonth;
+    }
+
+    public void setWeekOfMonth(int weekOfMonth) {
+        this.weekOfMonth = weekOfMonth;
     }
 
     public int getDayOfMonth() {

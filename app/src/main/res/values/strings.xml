@@ -20,6 +20,8 @@
     <string name="title_activity_yearly_summary">Yearly Summary</string>
 
     <!-- Field names -->
+    <string name="notes">Notes</string>
+    <string name="payment_method">Payment Method</string>
     <string name="expense_or_income">Expense/Income</string>
     <string name="view_chart">View Chart</string>
     <string name="add_expense">Add Expense</string>
@@ -27,13 +29,17 @@
     <string name="view_summary">View Summary</string>
     <string name="view_expense">Expense</string>
     <string name="view_income">Income</string>
-    <string name="expense_total">Expense Total = $</string>
-    <string name="income_total">Income Total = $</string>
-    <string name="total">Income Total - Expense Total = $</string>
+    <string name="dollar_sign_expense">($)Total Expense</string>
+    <string name="dollar_sign_income">($)Total Income</string>
+    <string name="expense_total">Total Expense = $</string>
+    <string name="income_total">Total Income = $</string>
+    <string name="total">Net Total = $</string>
     <string name="category_prompt">Choose a category</string>
+    <string name="category">Category</string>
     <string name="type_prompt">Choose a type</string>
+    <string name="category_type">Category</string>
     <string name="amount">Amount</string>
-    <string name="amount_dollar_sign">($)Amount</string>
+    <string name="amount_dollar_sign">($) Amount</string>
     <string name="day">Day</string>
     <string name="date">Date</string>
     <string name="dollar_sign">$</string>
@@ -53,8 +59,8 @@
     <string name="positive_button_text">Select</string>
     <string name="negative_button_text">Cancel</string>
 
-    <!-- List of categories -->
-    <string-array name="list_category">
+    <!-- List of expense categories -->
+    <string-array name="list_expense_category">
         <item>Housing</item>
         <item>Utilities</item>
         <item>Food</item>
@@ -67,11 +73,22 @@
         <item>Personal/Debt Payments/Misc</item>
     </string-array>
 
-    <!-- List of money types -->
-    <string-array name="list_money_type">
+    <!-- List of categories -->
+    <string-array name="list_income_category">
+        <item>Salary</item>
+        <item>Business/Profession</item>
+        <item>Capital Gain</item>
+        <item>House Property</item>
+        <item>Gifts</item>
+        <item>Others</item>
+    </string-array>
+
+    <!-- List of payment method -->
+    <string-array name="list_payment_method">
         <item>Cash</item>
         <item>Check</item>
-        <item>Electronic money</item>
+        <item>Debit/Credit Card</item>
+        <item>Others</item>
     </string-array>
 
     <!-- List of summary types -->

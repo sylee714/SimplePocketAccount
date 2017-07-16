@@ -98,14 +98,14 @@ public class IncomeActivity extends AppCompatActivity {
         date.setText(month + 1 + "/" + dayOfMonth + "/" + year);
 
 
-        adapter = ArrayAdapter.createFromResource(this, R.array.list_money_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = ArrayAdapter.createFromResource(this, R.array.list_money_type, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         moneyTypeSpinner.setAdapter(adapter);
 
         // Displays the bottom navigation bar.
         displayBottomBar();
 
-        summarySpinnerSetOnItemSelected();
+        incomeSpinnerSetOnItemSelected();
 
         // When mDateSetListener is called
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -116,7 +116,7 @@ public class IncomeActivity extends AppCompatActivity {
         };
     }
 
-    public void summarySpinnerSetOnItemSelected() {
+    public void incomeSpinnerSetOnItemSelected() {
         moneyTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

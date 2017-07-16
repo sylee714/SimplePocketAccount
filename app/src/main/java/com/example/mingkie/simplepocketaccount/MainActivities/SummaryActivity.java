@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -13,11 +14,18 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.mingkie.simplepocketaccount.Dialogs.MonthYearDialog;
 import com.example.mingkie.simplepocketaccount.R;
 import com.example.mingkie.simplepocketaccount.SelectActivities.SelectDateActivity;
 import com.example.mingkie.simplepocketaccount.SelectActivities.SelectMonthYearActivity;
 import com.example.mingkie.simplepocketaccount.SelectActivities.SelectWeekActivity;
 import com.example.mingkie.simplepocketaccount.SelectActivities.SelectYearActivity;
+import com.example.mingkie.simplepocketaccount.SummaryActivities.DailySummaryActivity;
+import com.example.mingkie.simplepocketaccount.SummaryActivities.MonthlySummaryActivity;
+import com.example.mingkie.simplepocketaccount.SummaryActivities.WeeklySummaryActivity;
+import com.example.mingkie.simplepocketaccount.SummaryActivities.YearlySummaryActivity;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,8 +44,15 @@ public class SummaryActivity extends AppCompatActivity {
     @BindView(R.id.summaryBottomNavigation)
     BottomNavigationView bottomNavigationView;
 
+    private Calendar calendar;
+    private int year;
+    private int month;
+    private int dayOfMonth;
+
     private ArrayAdapter<CharSequence> adapter;
     private String summarySelected;
+
+    private MonthYearDialog monthYearDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +63,13 @@ public class SummaryActivity extends AppCompatActivity {
         setTitle(R.string.title_activity_summary);
         displayBottomBar();
 
-        adapter = ArrayAdapter.createFromResource(this, R.array.list_summary_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        calendar = Calendar.getInstance();
+        year = calendar.get(Calendar.YEAR);
+        month = calendar.get(Calendar.MONTH);
+        dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+        adapter = ArrayAdapter.createFromResource(this, R.array.list_summary_type, R.layout.spinner_item);
+        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         summarySpinner.setAdapter(adapter);
         summarySpinnerSetOnItemSelected();
 
@@ -76,19 +96,35 @@ public class SummaryActivity extends AppCompatActivity {
         Intent intent;
         switch (summarySelected) {
             case "Daily Summary":
-                intent = new Intent(SummaryActivity.this, SelectDateActivity.class);
+                Log.i("Test", "Daily Summary");
+                intent = new Intent(SummaryActivity.this, DailySummaryActivity.class);
+                intent.putExtra("year", year);
+                Log.i("Year", year +"");
+                intent.putExtra("month", month);
+                Log.i("Month", month +"");
+                intent.putExtra("dayOfMonth", dayOfMonth);
+                Log.i("Day", dayOfMonth +"");
                 startActivity(intent);
                 break;
             case "Weekly Summary":
-                intent = new Intent(SummaryActivity.this, SelectWeekActivity.class);
+                intent = new Intent(SummaryActivity.this, WeeklySummaryActivity.class);
+                intent.putExtra("year", year);
+                intent.putExtra("month", month);
+                intent.putExtra("dayOfMonth", dayOfMonth);
                 startActivity(intent);
                 break;
             case "Monthly Summary":
-                intent = new Intent(SummaryActivity.this, SelectMonthYearActivity.class);
+                intent = new Intent(SummaryActivity.this, MonthlySummaryActivity.class);
+                intent.putExtra("year", year);
+                intent.putExtra("month", month);
+                intent.putExtra("dayOfMonth", dayOfMonth);
                 startActivity(intent);
                 break;
             case "Yearly Summary":
-                intent = new Intent(SummaryActivity.this, SelectYearActivity.class);
+                intent = new Intent(SummaryActivity.this, YearlySummaryActivity.class);
+                intent.putExtra("year", year);
+                intent.putExtra("month", month);
+                intent.putExtra("dayOfMonth", dayOfMonth);
                 startActivity(intent);
                 break;
             default:

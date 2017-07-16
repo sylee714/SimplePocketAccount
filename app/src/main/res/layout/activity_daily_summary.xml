@@ -1,121 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    
+
     <TextView
+        android:background="@drawable/border"
         android:id="@+id/dailySummaryDate"
-        android:layout_weight="5"
-        android:gravity="center"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:text="@string/date"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:gravity="center"
+        android:text="@string/date"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="#000000" />
 
     <LinearLayout
-        android:padding="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:gravity="center_vertical"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
+            android:gravity="center_vertical"
             android:id="@+id/dailySummaryExpenseTotal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/expense_total"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000" />
 
         <TextView
+            android:gravity="center_vertical"
             android:id="@+id/dailySummaryExpenseTotalAmount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/amount"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="5"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp">
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <TextView
+            android:gravity="center_vertical"
             android:id="@+id/dailySummaryIncomeTotal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/income_total"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000" />
 
         <TextView
+            android:gravity="center_vertical"
             android:id="@+id/dailySummaryIncomeTotalAmount"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:text="@string/amount"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/dailySummaryNetTotal"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/total"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000" />
+
+        <TextView
+            android:gravity="center_vertical"
+            android:id="@+id/dailySummaryNetTotalAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="@string/amount"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:textColor="#000000" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="horizontal">
+
+        <TextView
+            android:textColor="#000000"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:gravity="center"
+            android:text="@string/expense_or_income"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:padding="5dp"
-        android:layout_weight="5"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
         <TextView
-            android:id="@+id/dailySummaryNetTotal"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:text="@string/total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/dailySummaryNetTotalAmount"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/amount" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_weight="5"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:padding="5dp"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:text="@string/expense_or_income"
-            android:gravity="center"
-            android:layout_weight="50"
+            android:id="@+id/textView2"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
-
-        <TextView
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
             android:gravity="center"
-            android:layout_weight="50"
             android:text="@string/type"
-            android:layout_width="0dp"
-            android:layout_height="match_parent" />
-        <TextView
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:gravity="center"
-            android:layout_weight="50"
-            android:text="@string/amount_dollar_sign"
+            android:textColor="#000000" />
+
+        <TextView
+            android:textColor="#000000"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:text="@string/amount_dollar_sign"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
     </LinearLayout>
 
@@ -123,6 +137,6 @@
         android:id="@+id/actionHistoryListView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="75"></ListView>
+        android:layout_weight="60"></ListView>
 
 </LinearLayout>
