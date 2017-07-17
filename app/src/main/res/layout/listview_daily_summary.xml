@@ -1,37 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/backgroundColor"
+    android:padding="5dp"
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <TextView
-        android:textColor="#000000"
-        android:id="@+id/listViewExpenseIncome"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:id="@+id/expenseIncomeDailyListView"
+        android:textColor="@color/fontColor"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        android:gravity="center"
         android:text="@string/expense_or_income"
-        android:gravity="center"
-        android:layout_weight="4"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
     <TextView
-        android:textColor="#000000"
-        android:id="@+id/listViewType"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:gravity="center"
-        android:layout_weight="3"
-        android:text="@string/type"
+        android:id="@+id/amountDailyListView"
+        android:textColor="@color/fontColor"
         android:layout_width="0dp"
-        android:layout_height="match_parent" />
-
-    <TextView
-        android:textColor="#000000"
-        android:id="@+id/listViewAmount"
-        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
         android:gravity="center"
-        android:layout_weight="3"
         android:text="@string/amount_dollar_sign"
-        android:layout_width="0dp"
-        android:layout_height="match_parent" />
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+
 </LinearLayout>

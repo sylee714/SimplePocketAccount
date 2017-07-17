@@ -7,7 +7,6 @@ import android.provider.BaseColumns;
  */
 
 public class ActionContract {
-
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.
     private ActionContract() {
@@ -24,14 +23,16 @@ public class ActionContract {
                     ActionEntry.COLUMN_NAME_DAYOFWEEK + " INTEGER," +
                     ActionEntry.COLUMN_NAME_WEEKOFMONTH + " INTEGER," +
                     ActionEntry.COLUMN_NAME_WEEKOFYEAR + " INTEGER," +
-                    ActionEntry.COLUMN_NAME_TYPE + " TEXT," +
+                    ActionEntry.COLUMN_NAME_CATEGORY + " TEXT," +
+                    ActionEntry.COLUMN_NAME_PAYMENT + " TEXT," +
+                    ActionEntry.COLUMN_NAME_NOTES + " TEXT," +
                     ActionEntry.COLUMN_NAME_AMOUNT + " REAL)";
 
     public static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + ActionEntry.TABLE_NAME;
 
     public static class ActionEntry implements BaseColumns {
-        public static final String TABLE_NAME = "action";
+        public static final String TABLE_NAME = "actionHistory";
         public static final String COLUMN_NAME_ACTIONTYPE = "actionType";
         public static final String COLUMN_NAME_YEAR = "year";
         public static final String COLUMN_NAME_MONTH = "month";
@@ -39,7 +40,9 @@ public class ActionContract {
         public static final String COLUMN_NAME_DAYOFWEEK = "dayOfWeek";
         public static final String COLUMN_NAME_WEEKOFMONTH = "weekOfMonth";
         public static final String COLUMN_NAME_WEEKOFYEAR = "weekOfYear";
-        public static final String COLUMN_NAME_TYPE = "type";
+        public static final String COLUMN_NAME_CATEGORY = "category";
+        public static final String COLUMN_NAME_PAYMENT = "payment";
+        public static final String COLUMN_NAME_NOTES = "notes";
         public static final String COLUMN_NAME_AMOUNT = "amount";
     }
 
@@ -50,5 +53,4 @@ public class ActionContract {
     public static String getSqlDeleteEntries() {
         return SQL_DELETE_ENTRIES;
     }
-
 }

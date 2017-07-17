@@ -5,7 +5,6 @@ package com.example.mingkie.simplepocketaccount.Data;
  */
 
 public class Action {
-
     private String actionType;
     private int year;
     private int month;
@@ -13,7 +12,9 @@ public class Action {
     private int dayOfWeek;
     private int weekOfMonth;
     private int weekOfYear;
-    private String type;
+    private String category;
+    private String payment;
+    private String notes;
     private double amount;
 
     public Action() {
@@ -76,12 +77,28 @@ public class Action {
         this.weekOfYear = weekOfYear;
     }
 
-    public String getType() {
-        return type;
+    public String getCategory() {
+        return category;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getPayment() {
+        return payment;
+    }
+
+    public void setPayment(String payment) {
+        this.payment = payment;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public double getAmount() {

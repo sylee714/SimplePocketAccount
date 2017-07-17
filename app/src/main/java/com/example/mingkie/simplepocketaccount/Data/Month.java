@@ -5,7 +5,6 @@ package com.example.mingkie.simplepocketaccount.Data;
  */
 
 public class Month {
-
     private String monthString;
     private int month;
     private int year;
@@ -55,5 +54,4 @@ public class Month {
     public void setExpense(Expense expense) {
         this.expense = expense;
     }
-
 }

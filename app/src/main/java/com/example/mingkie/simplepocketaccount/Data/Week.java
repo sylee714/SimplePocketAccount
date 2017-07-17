@@ -5,7 +5,6 @@ package com.example.mingkie.simplepocketaccount.Data;
  */
 
 public class Week {
-
     private int year;
     private int weekOfMonth;
     private int weekOfYear;

@@ -3,6 +3,7 @@ package com.example.mingkie.simplepocketaccount.Dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.NumberPicker;
 
@@ -15,7 +16,6 @@ import java.util.Calendar;
  */
 
 public class YearDialog {
-
     private static final int MIN_YEAR = 1970;
     private static final int MAX_YEAR = 2099;
 
@@ -103,6 +103,8 @@ public class YearDialog {
     public void show() {
         if (build) {
             pickerDialog.show();
+            pickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.rgb (0, 153, 153));
+            pickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.rgb (0, 153, 153));
         } else {
             throw new IllegalStateException("Build picker before use");
         }

@@ -5,7 +5,6 @@ package com.example.mingkie.simplepocketaccount.Data;
  */
 
 public class Day {
-
     private Income income;
     private Expense expense;
     private String day;

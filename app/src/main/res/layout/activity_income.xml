@@ -18,20 +18,19 @@
 
         <TextView
             android:id="@+id/selectDateIncomeTextView"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/select_date"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@color/fontColor" />
+            android:textColor="@color/fontColor"
+            android:text="@string/select_date" />
 
         <TextView
             android:id="@+id/dateIncomeTextView"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/date"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
-            android:textColor="@color/fontColor" />
-
+            android:textColor="@color/fontColor"
+            android:text="@string/date" />
     </LinearLayout>
 
     <LinearLayout
@@ -42,24 +41,48 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/typeIncomeTextView"
+            android:id="@+id/categoryIncomeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/type"
+            android:text="@string/category"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
             android:textColor="@color/fontColor" />
 
         <Spinner
-            android:id="@+id/typeIncomeSpinner"
+            android:id="@+id/categoryIncomeSpinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:entries="@array/list_money_type"
+            android:entries="@array/list_income_category"
             android:gravity="center"
             android:scrollbarSize="30dp"></Spinner>
+    </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="20"
+        android:gravity="center"
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/paymentMethodIncomeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/payment_method"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/fontColor" />
+
+        <Spinner
+            android:id="@+id/paymentMethodIncomeSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:entries="@array/list_payment_method"
+            android:gravity="center"
+            android:scrollbarSize="30dp"></Spinner>
     </LinearLayout>
 
     <LinearLayout
@@ -69,20 +92,20 @@
         android:layout_height="0dp">
 
         <TextView
-            android:visibility="invisible"
-            android:layout_weight="30"
             android:id="@+id/incomeWarning"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="30"
             android:gravity="center"
+            android:text="@string/warning_amount"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:textColor="#000000"
-            android:text="@string/warning_amount" />
+            android:visibility="invisible" />
 
         <LinearLayout
-            android:layout_weight="70"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_weight="70"
             android:gravity="center"
             android:orientation="horizontal">
 
@@ -97,6 +120,7 @@
 
             <EditText
                 android:id="@+id/amountIncomeEditView"
+                android:backgroundTint="@color/fontColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -105,19 +129,51 @@
                 android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
                 android:textColor="@color/fontColor"
                 android:textColorHint="@color/fontColor" />
-
         </LinearLayout>
-
     </LinearLayout>
 
-    <TextView
-        android:layout_weight="7"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"
+        android:layout_weight="15"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+
+        <EditText
+            android:id="@+id/notesIncomeEditText"
+            android:backgroundTint="@color/fontColor"
+            android:hint="@string/notes"
+            android:focusable="false"
+            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+            android:textColor="@color/fontColor"
+            android:textColorHint="@color/fontColor"
+            android:gravity="center|bottom" />
+
+        <TextView
+            android:layout_weight="10"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center" />
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7"
+        android:gravity="center" />
 
     <Button
-        android:layout_weight="6"
         android:id="@+id/submitIncomeButton"
+        android:layout_weight="6"
         android:layout_gravity="center"
         android:text="@string/submit_button"
         android:textColor="#FFF"
@@ -126,10 +182,9 @@
         android:layout_height="0dp" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:layout_weight="7"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="7" />
+        android:layout_height="0dp" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/incomeBottomNavigation"
@@ -138,7 +193,6 @@
         app:itemBackground="@color/colorPrimary"
         app:itemIconTint="@drawable/nav_item_color_state"
         app:itemTextColor="@drawable/nav_item_color_state"
-        app:menu="@menu/bottom_navigation_bar"
-        />
+        app:menu="@menu/bottom_navigation_bar" />
 
 </LinearLayout>

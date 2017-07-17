@@ -1,18 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:padding="5dp"
+    android:orientation="vertical"
+    android:background="@color/backgroundColor"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:text="Type of Chart"
+        android:layout_weight="10"
+        android:textColor="@color/fontColor"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <Spinner
+        android:id="@+id/chartSpinner"
+        android:layout_weight="10"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_height="0dp"></Spinner>
+
     <com.github.mikephil.charting.charts.PieChart
+        android:layout_gravity="center"
         android:id="@+id/pieChart"
-        android:visibility="invisible"
+        android:padding="5dp"
+        android:layout_weight="80"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.mikephil.charting.charts.PieChart>
-
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/barChart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.mikephil.charting.charts.BarChart>
-
-
+        android:layout_height="0dp"></com.github.mikephil.charting.charts.PieChart>
 </LinearLayout>

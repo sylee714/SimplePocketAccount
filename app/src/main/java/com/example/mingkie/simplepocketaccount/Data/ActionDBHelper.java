@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 
 public class ActionDBHelper extends SQLiteOpenHelper {
-
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Action.db";
 
@@ -31,5 +30,4 @@ public class ActionDBHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
-
 }

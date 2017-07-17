@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.example.mingkie.simplepocketaccount.Data.Action;
 import com.example.mingkie.simplepocketaccount.R;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -20,7 +22,6 @@ import java.util.List;
  */
 
 public class DailySummaryAdapter extends ArrayAdapter<Action> {
-
     private Context context;
     private List<Action> data;
 
@@ -35,17 +36,11 @@ public class DailySummaryAdapter extends ArrayAdapter<Action> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.listview_daily_summary, parent, false);
-
-        TextView expenseOrIncome = (TextView) view.findViewById(R.id.listViewExpenseIncome);
-        TextView type = (TextView) view.findViewById(R.id.listViewType);
-        TextView amount = (TextView) view.findViewById(R.id.listViewAmount);
-
+        TextView expenseOrIncome = (TextView) view.findViewById(R.id.expenseIncomeDailyListView);
+        TextView amount = (TextView) view.findViewById(R.id.amountDailyListView);
         expenseOrIncome.setText(data.get(position).getActionType());
-        type.setText(data.get(position).getType());
-        amount.setText(data.get(position).getAmount() + "");
-
-
+        Double truncatedAmount = BigDecimal.valueOf(data.get(position).getAmount()).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        amount.setText(truncatedAmount + "");
         return view;
     }
-
 }

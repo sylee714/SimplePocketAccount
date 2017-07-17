@@ -36,7 +36,6 @@ import butterknife.OnClick;
  */
 
 public class SummaryActivity extends AppCompatActivity {
-
     @BindView(R.id.summarySpinner)
     Spinner summarySpinner;
     @BindView(R.id.submitSummaryButton)
@@ -160,5 +159,4 @@ public class SummaryActivity extends AppCompatActivity {
             }
         });
     }
-
 }

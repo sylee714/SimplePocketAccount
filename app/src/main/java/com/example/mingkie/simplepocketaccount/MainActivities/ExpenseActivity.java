@@ -1,18 +1,20 @@
 package com.example.mingkie.simplepocketaccount.MainActivities;
 
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -37,7 +39,6 @@ import butterknife.OnClick;
 
 @TargetApi(Build.VERSION_CODES.N)
 public class ExpenseActivity extends AppCompatActivity {
-
     @BindView(R.id.expenseWarning)
     TextView warningMessage;
     @BindView(R.id.amountExpenseEditView)
@@ -46,8 +47,12 @@ public class ExpenseActivity extends AppCompatActivity {
     TextView date;
     @BindView(R.id.submitExpenseButton)
     Button submitButton;
-    @BindView(R.id.typeExpenseSpinner)
-    Spinner typeSpinner;
+    @BindView(R.id.categoryExpenseSpinner)
+    Spinner categorySpinner;
+    @BindView(R.id.paymentMethodExpenseSpinner)
+    Spinner paymentSpinner;
+    @BindView(R.id.notesExpenseEditText)
+    EditText notesEditText;
     @BindView(R.id.expenseBottomNavigation)
     BottomNavigationView bottomNavigationView;
 
@@ -62,11 +67,13 @@ public class ExpenseActivity extends AppCompatActivity {
     private int dayOfWeek;
     private int weekOfMonth;
     private int weekOfYear;
-    private String type;
+    private String category;
+    private String payment;
+    private String notes;
     private double amount;
 
-    private ArrayAdapter<CharSequence> adapter;
-
+    private ArrayAdapter<CharSequence> categoryAdapter;
+    private ArrayAdapter<CharSequence> paymentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,19 +104,19 @@ public class ExpenseActivity extends AppCompatActivity {
         // Sets date to current date which is the default value
         date.setText(month + 1 + "/" + dayOfMonth + "/" + year);
 
+        categoryAdapter = ArrayAdapter.createFromResource(this, R.array.list_expense_category, R.layout.spinner_item);
+        categoryAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        categorySpinner.setAdapter(categoryAdapter);
 
-        adapter = ArrayAdapter.createFromResource(this, R.array.list_category, R.layout.spinner_item);
-        adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
-        typeSpinner.setAdapter(adapter);
-
-
-
+        paymentAdapter = ArrayAdapter.createFromResource(this, R.array.list_payment_method, R.layout.spinner_item);
+        paymentAdapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+        paymentSpinner.setAdapter(paymentAdapter);
 
         // Displays the bottom navigation bar.
         displayBottomBar();
 
-        expenseSpinnerSetOnItemSelected();
-
+        categorySpinnerSetOnItemSelected();
+        paymentSpinnerSetOnItemSelected();
 
         // When mDateSetListener is called
         mDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -120,11 +127,56 @@ public class ExpenseActivity extends AppCompatActivity {
         };
     }
 
-    public void expenseSpinnerSetOnItemSelected() {
-        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    @OnClick(R.id.notesExpenseEditText)
+    public void notesClicked() {
+        showInputDialog();
+    }
+
+    protected void showInputDialog() {
+        // get prompts.xml view
+        LayoutInflater layoutInflater = LayoutInflater.from(ExpenseActivity.this);
+        View promptView = layoutInflater.inflate(R.layout.notes_dialog, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ExpenseActivity.this);
+        alertDialogBuilder.setView(promptView);
+        final EditText editText = (EditText) promptView.findViewById(R.id.notesDialogEditText);
+        editText.setText(notesEditText.getText());
+        // setup a dialog window
+        alertDialogBuilder.setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        notesEditText.setText(editText.getText());
+                    }
+                })
+                .setNegativeButton("CANCEL",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        // create an alert dialog
+        AlertDialog alert = alertDialogBuilder.create();
+        alert.show();
+        alert.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.rgb (0, 153, 153));
+        alert.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.rgb (0, 153, 153));
+    }
+
+    public void categorySpinnerSetOnItemSelected() {
+        categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                type = (String) parent.getItemAtPosition(position);
+                category = (String) parent.getItemAtPosition(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
+    public void paymentSpinnerSetOnItemSelected() {
+        paymentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                payment = (String) parent.getItemAtPosition(position);
             }
 
             @Override
@@ -138,7 +190,7 @@ public class ExpenseActivity extends AppCompatActivity {
     @OnClick(R.id.dateExpenseTextView)
     public void currentDateClicked() {
         DatePickerDialog dialog = new DatePickerDialog(ExpenseActivity.this,
-                android.R.style.Theme_DeviceDefault_Dialog, mDateSetListener,
+                android.R.style.Theme_DeviceDefault_Light_Dialog, mDateSetListener,
                 year, month, dayOfMonth);
         //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.show();
@@ -147,9 +199,7 @@ public class ExpenseActivity extends AppCompatActivity {
     public static boolean isNum(String strNum) {
         boolean ret = true;
         try {
-
             Double.parseDouble(strNum);
-
         }catch (NumberFormatException e) {
             ret = false;
         }
@@ -158,7 +208,7 @@ public class ExpenseActivity extends AppCompatActivity {
 
     @OnClick(R.id.submitExpenseButton)
     public void submitButtonClicked() {
-
+        submitButton.setBackgroundColor(Color.GRAY);
         String amountString = amountEditText.getText().toString();
         if (!amountString.equals("") || isNum(amountString)) {
             warningMessage.setVisibility(View.INVISIBLE);
@@ -182,17 +232,21 @@ public class ExpenseActivity extends AppCompatActivity {
             Log.i("Week of Year", weekOfYear + "");
 
             amount = Double.parseDouble(amountEditText.getText().toString());
+            notes = notesEditText.getText().toString();
 
             Action action = createAction();
             insertAction(action);
             amountEditText.setHint("Amount");
             amountEditText.setText(null);
+            notesEditText.setHint("Notes");
+            notesEditText.setText(null);
 
         } else {
             warningMessage.setVisibility(View.VISIBLE);
             amountEditText.setHint("Amount");
             amountEditText.setText(null);
         }
+        submitButton.setBackgroundColor(Color.rgb (0, 153, 153));
 
     }
 
@@ -200,7 +254,9 @@ public class ExpenseActivity extends AppCompatActivity {
         Action action = new Action();
         action.setActionType(ACTION_TYPE);
         action.setAmount(amount);
-        action.setType(type);
+        action.setCategory(category);
+        action.setPayment(payment);
+        action.setNotes(notes);
         action.setYear(year);
         action.setMonth(month);
         action.setDayOfMonth(dayOfMonth);
@@ -213,7 +269,6 @@ public class ExpenseActivity extends AppCompatActivity {
     public void insertAction(Action action) {
         // Gets the data repository in write mode
         SQLiteDatabase db = actionDBHelper.getWritableDatabase();
-
         // Create a new map of values, where column names are the keys
         ContentValues values = new ContentValues();
         values.put(ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE, action.getActionType());
@@ -223,9 +278,10 @@ public class ExpenseActivity extends AppCompatActivity {
         values.put(ActionContract.ActionEntry.COLUMN_NAME_DAYOFWEEK, action.getDayOfWeek());
         values.put(ActionContract.ActionEntry.COLUMN_NAME_WEEKOFMONTH, action.getWeekOfMonth());
         values.put(ActionContract.ActionEntry.COLUMN_NAME_WEEKOFYEAR, action.getWeekOfYear());
-        values.put(ActionContract.ActionEntry.COLUMN_NAME_TYPE, action.getType());
+        values.put(ActionContract.ActionEntry.COLUMN_NAME_CATEGORY, action.getCategory());
+        values.put(ActionContract.ActionEntry.COLUMN_NAME_PAYMENT, action.getPayment());
+        values.put(ActionContract.ActionEntry.COLUMN_NAME_NOTES, action.getNotes());
         values.put(ActionContract.ActionEntry.COLUMN_NAME_AMOUNT, action.getAmount());
-
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(ActionContract.ActionEntry.TABLE_NAME, null, values);
         Log.i("TEST", "New row id: " + newRowId);
@@ -258,5 +314,4 @@ public class ExpenseActivity extends AppCompatActivity {
             }
         });
     }
-
 }

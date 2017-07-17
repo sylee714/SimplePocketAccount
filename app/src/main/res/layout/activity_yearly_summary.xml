@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/backgroundColor"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:textColor="#000000"
+        android:textColor="@color/fontColor"
         android:layout_weight="8"
         android:id="@+id/yearYearlySummary"
         android:layout_width="match_parent"
@@ -22,14 +25,14 @@
         android:orientation="horizontal">
 
         <TextView
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/expense_total" />
 
         <TextView
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:id="@+id/expenseAmountYearlySummary"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_width="wrap_content"
@@ -49,7 +52,7 @@
             android:layout_height="wrap_content"
             android:text="@string/income_total"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000" />
+            android:textColor="@color/fontColor" />
 
         <TextView
             android:id="@+id/incomeAmountYearlySummary"
@@ -57,7 +60,7 @@
             android:layout_height="wrap_content"
             android:text="@string/amount"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000" />
+            android:textColor="@color/fontColor" />
     </LinearLayout>
 
     <LinearLayout
@@ -72,7 +75,7 @@
             android:layout_height="wrap_content"
             android:text="@string/total"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000" />
+            android:textColor="@color/fontColor" />
 
         <TextView
             android:id="@+id/netAmountYearlySummary"
@@ -80,7 +83,7 @@
             android:layout_height="wrap_content"
             android:text="@string/amount"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000" />
+            android:textColor="@color/fontColor" />
 
     </LinearLayout>
 
@@ -93,7 +96,7 @@
         android:layout_height="0dp">
 
         <TextView
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:id="@+id/monthYearlySummary"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:gravity="center"
@@ -103,7 +106,7 @@
             android:layout_height="match_parent" />
 
         <TextView
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:id="@+id/totalIncomeYearlySummary"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:gravity="center"
@@ -113,7 +116,7 @@
             android:layout_height="match_parent" />
 
         <TextView
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:id="@+id/totalExpenseYearlySummary"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:gravity="center"

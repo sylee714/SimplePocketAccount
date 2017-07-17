@@ -18,6 +18,8 @@
     <string name="title_activity_weekly_summary">Weekly Summary</string>
     <string name="title_activity_monthly_summary">Monthly Summary</string>
     <string name="title_activity_yearly_summary">Yearly Summary</string>
+    <string name="title_activity_detailed_summary">Detailed Summary</string>
+    <string name="title_activity_chart">Chart</string>
 
     <!-- Field names -->
     <string name="notes">Notes</string>
@@ -36,7 +38,7 @@
     <string name="total">Net Total = $</string>
     <string name="category_prompt">Choose a category</string>
     <string name="category">Category</string>
-    <string name="type_prompt">Choose a type</string>
+    <string name="type_prompt">Choose a category</string>
     <string name="category_type">Category</string>
     <string name="amount">Amount</string>
     <string name="amount_dollar_sign">($) Amount</string>
@@ -44,7 +46,6 @@
     <string name="date">Date</string>
     <string name="dollar_sign">$</string>
     <string name="submit_button">Submit</string>
-    <string name="type">Type</string>
     <string name="month">Month</string>
     <string name="week">Week</string>
     <string name="year">Year</string>
@@ -73,7 +74,7 @@
         <item>Personal/Debt Payments/Misc</item>
     </string-array>
 
-    <!-- List of categories -->
+    <!-- List of income categories -->
     <string-array name="list_income_category">
         <item>Salary</item>
         <item>Business/Profession</item>
@@ -97,6 +98,14 @@
         <item>Weekly Summary</item>
         <item>Monthly Summary</item>
         <item>Yearly Summary</item>
+    </string-array>
+
+    <!-- List of chart types -->
+    <string-array name="list_chart_type">
+        <item>Expense/Category</item>
+        <item>Expense/Payment Method</item>
+        <item>Income/Category</item>
+        <item>Income/Payment Method</item>
     </string-array>
 
 </resources>

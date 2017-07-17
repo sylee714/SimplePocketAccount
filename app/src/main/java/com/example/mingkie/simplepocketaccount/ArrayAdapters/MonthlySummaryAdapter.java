@@ -13,6 +13,8 @@ import android.widget.TextView;
 import com.example.mingkie.simplepocketaccount.Data.Week;
 import com.example.mingkie.simplepocketaccount.R;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -20,7 +22,6 @@ import java.util.List;
  */
 
 public class MonthlySummaryAdapter extends ArrayAdapter<Week> {
-
     private Context context;
     private List<Week> data;
 
@@ -35,16 +36,14 @@ public class MonthlySummaryAdapter extends ArrayAdapter<Week> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = layoutInflater.inflate(R.layout.listview_monthly_summary, parent, false);
-
         TextView week = (TextView) view.findViewById(R.id.weekMonthlyListView);
         TextView income = (TextView) view.findViewById(R.id.incomeMonthlyListView);
         TextView expense = (TextView) view.findViewById(R.id.expenseMonthlyListView);
-
         week.setText("Week " + data.get(position).getWeekOfMonth());
-        income.setText(data.get(position).getIncome().getTotalAmount() + "");
-        expense.setText(data.get(position).getExpense().getTotalAmount() + "");
-
-
+        Double truncatedIncomeAmount = BigDecimal.valueOf(data.get(position).getIncome().getTotalAmount()).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        Double truncatedExpenseAmount = BigDecimal.valueOf(data.get(position).getExpense().getTotalAmount()).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        income.setText(truncatedIncomeAmount + "");
+        expense.setText(truncatedExpenseAmount + "");
         return view;
     }
 }

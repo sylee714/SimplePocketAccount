@@ -3,6 +3,7 @@ package com.example.mingkie.simplepocketaccount.Dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.view.View;
 import android.widget.NumberPicker;
 
@@ -76,7 +77,6 @@ public class MonthYearDialog {
      */
     public void build(int selectedMonth, int selectedYear, DialogInterface.OnClickListener positiveButtonListener,
                       DialogInterface.OnClickListener negativeButtonListener) {
-
         final Calendar instance = Calendar.getInstance();
         currentMonth = instance.get(Calendar.MONTH);
         currentYear = instance.get(Calendar.YEAR);
@@ -121,7 +121,6 @@ public class MonthYearDialog {
         builder.setNegativeButton(activity.getString(R.string.negative_button_text), negativeButtonListener);
         build = true;
         pickerDialog = builder.create();
-
     }
 
     /**
@@ -130,6 +129,9 @@ public class MonthYearDialog {
     public void show() {
         if (build) {
             pickerDialog.show();
+            pickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.rgb (0, 153, 153));
+            pickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.rgb (0, 153, 153));
+            //pickerDialog.show();
         } else {
             throw new IllegalStateException("Build picker before use");
         }

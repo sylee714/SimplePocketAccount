@@ -1,129 +1,103 @@
 package com.example.mingkie.simplepocketaccount.Data;
 
+import android.util.Log;
+
 /**
  * Created by MingKie on 7/13/2017.
  */
 
 public class Expense {
-
-    private double totalAmount;
-    private double housingAmount;
-    private double utilitiesAmount;
-    private double foodAmount;
-    private double clothingAmount;
-    private double medicalAmount;
-    private double donationAmount;
-    private double savingInsurAmount;
-    private double entertainAmount;
-    private double transportationAmount;
-    private double personalAmount;
+    private double[] categories;
+    private double[] payments;
 
     public Expense() {
-        totalAmount = 0;
-        housingAmount = 0;
-        utilitiesAmount = 0;
-        foodAmount = 0;
-        clothingAmount = 0;
-        medicalAmount = 0;
-        donationAmount = 0;
-        savingInsurAmount = 0;
-        entertainAmount = 0;
-        transportationAmount = 0;
-        personalAmount = 0;
+        categories = new double[10];
+        payments = new double[4];
+        initializeCategories();
+        initializePayments();
     }
 
-    public void addHousing(double amount) {
-        totalAmount = totalAmount + amount;
-        housingAmount = housingAmount + amount;
+    private void initializeCategories() {
+        for (int i = 0; i < categories.length; ++i) {
+            categories[i] = 0;
+        }
     }
 
-    public void addUtility(double amount) {
-        totalAmount = totalAmount + amount;
-        utilitiesAmount = utilitiesAmount + amount;
+    private void initializePayments() {
+        for (int i = 0; i < payments.length; ++i) {
+            payments[i] = 0;
+        }
     }
 
-    public void addFood(double amount) {
-        totalAmount = totalAmount + amount;
-        foodAmount = foodAmount + amount;
+    public void add(String category, String payment, double amount) {
+        addCategories(category, amount);
+        addPayments(payment, amount);
     }
 
-    public void addClothing(double amount) {
-        totalAmount = totalAmount + amount;
-        clothingAmount = clothingAmount + amount;
+    private void addCategories(String category, double amount) {
+        if (category.equals("Housing")) {
+            categories[0] = categories[0] + amount;
+            Log.i("Type: ", "Housing");
+        } else if (category.equals("Utilities")) {
+            categories[1] = categories[1] + amount;
+            Log.i("Type: ", "Utilities");
+        } else if (category.equals("Food")){
+            categories[2] = categories[2] + amount;
+            Log.i("Type: ", "Food");
+        } else if (category.equals("Clothing")){
+            categories[3] = categories[3] + amount;
+            Log.i("Type: ", "Clothing");
+        } else if (category.equals("Medical/Healthcare")) {
+            categories[4] = categories[4] + amount;
+            Log.i("Type: ", "Medical");
+        } else if (category.equals("Donations/Gifts to Charity")){
+            categories[5] = categories[5] + amount;
+            Log.i("Type: ", "Donations");
+        } else if (category.equals("Savings and Insurance")){
+            categories[6] = categories[6] + amount;
+            Log.i("Type: ", "Saving");
+        } else if (category.equals("Entertainment and Recreation")) {
+            categories[7] = categories[7] + amount;
+            Log.i("Type: ", "Entertainment");
+        } else if (category.equals("Transportation")){
+            categories[8] = categories[8] + amount;
+            Log.i("Type: ", "Transportation");
+        } else if (category.equals("Personal/Debt Payments/Misc")){
+            categories[9] = categories[9] + amount;
+            Log.i("Type: ", "Personal");
+        }
     }
 
-    public void addMedical(double amount) {
-        totalAmount = totalAmount + amount;
-        medicalAmount = medicalAmount + amount;
+    private void addPayments(String payment, double amount) {
+        Log.i("Add Expense", "Called");
+        if (payment.equals("Cash")) {
+            payments[0] = payments[0] + amount;
+            Log.i("Type: ", "Cash");
+        } else if (payment.equals("Check")) {
+            payments[1] = payments[1] + amount;
+            Log.i("Type: ", "Check");
+        } else if (payment.equals("Debit/Credit Card")) {
+            payments[2] = payments[2] + amount;
+            Log.i("Type: ", "Debit/Credit Card");
+        } else if (payment.equals("Others")) {
+            payments[3] = payments[3] + amount;
+            Log.i("Type: ", "Others");
+        }
     }
 
-    public void addDonation(double amount) {
-        totalAmount = totalAmount + amount;
-        donationAmount = donationAmount + amount;
+    public double[] getCategories() {
+        return categories;
     }
 
-    public void addSaving(double amount) {
-        totalAmount = totalAmount + amount;
-        savingInsurAmount = savingInsurAmount + amount;
+    public double[] getPayments() {
+        return payments;
     }
-
-    public void addEntertain(double amount) {
-        totalAmount = totalAmount + amount;
-        entertainAmount = entertainAmount + amount;
-    }
-
-    public void addTransportation(double amount) {
-        totalAmount = totalAmount + amount;
-        transportationAmount = transportationAmount + amount;
-    }
-
-    public void addPersonal(double amount) {
-        totalAmount = totalAmount + amount;
-        personalAmount = personalAmount + amount;
-    }
-
 
     public double getTotalAmount() {
+        double totalAmount = 0;
+        for (int i = 0; i < payments.length; ++i) {
+            totalAmount = totalAmount + payments[i];
+        }
         return totalAmount;
-    }
-
-    public double getHousingAmount() {
-        return housingAmount;
-    }
-
-    public double getUtilitiesAmount() {
-        return utilitiesAmount;
-    }
-
-    public double getFoodAmount() {
-        return foodAmount;
-    }
-
-    public double getClothingAmount() {
-        return clothingAmount;
-    }
-
-    public double getMedicalAmount() {
-        return medicalAmount;
-    }
-
-    public double getDonationAmount() {
-        return donationAmount;
-    }
-
-    public double getSavingInsurAmount() {
-        return savingInsurAmount;
-    }
-
-    public double getEntertainAmount() {
-        return entertainAmount;
-    }
-
-    public double getTransportationAmount() {
-        return transportationAmount;
-    }
-
-    public double getPersonalAmount() {
-        return personalAmount;
     }
 }
