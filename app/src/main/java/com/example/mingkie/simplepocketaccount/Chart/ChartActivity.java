@@ -107,9 +107,9 @@ public class ChartActivity extends AppCompatActivity {
                 String name = xData[index];
                 //int newIndex = Integer.parseInt(indexOfY);
                 if (displayingPayment) {
-                    Toast.makeText(ChartActivity.this, "Payment Method: " + name + "\n" + "Amount: $" + amount, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ChartActivity.this, "Payment Method: " + name + "\n" + "Amount: $" + amount, Toast.LENGTH_SHORT).show();
                 } else {
-                    Toast.makeText(ChartActivity.this, "Category: " + name + "\n" + "Amount: $" + amount, Toast.LENGTH_LONG).show();
+                    Toast.makeText(ChartActivity.this, "Category: " + name + "\n" + "Amount: $" + amount, Toast.LENGTH_SHORT).show();
                 }
 
             }
