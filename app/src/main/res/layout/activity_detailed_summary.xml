@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/backgroundColor"
     android:orientation="vertical"
     android:padding="5dp"
     android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         android:layout_height="0dp">
         <TextView
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:layout_weight="10"
             android:text="Date:"
             android:layout_width="match_parent"
@@ -21,7 +22,7 @@
         <TextView
             android:id="@+id/dateDetailedSummary"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_weight="10"
             android:text="Date"
@@ -35,7 +36,7 @@
         android:layout_height="0dp">
         <TextView
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:layout_weight="10"
             android:text="Category:"
             android:layout_width="match_parent"
@@ -43,7 +44,7 @@
         <TextView
             android:id="@+id/categoryDetailedSummary"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_weight="10"
             android:text="Category"
@@ -57,7 +58,7 @@
         android:layout_height="0dp">
         <TextView
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:layout_weight="10"
             android:text="Payment Method:"
             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
         <TextView
             android:id="@+id/paymentDetailedSummary"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_weight="10"
             android:text="Payment Method"
@@ -79,7 +80,7 @@
         android:layout_height="0dp">
         <TextView
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:layout_weight="10"
             android:text="Amount:"
             android:layout_width="match_parent"
@@ -87,7 +88,7 @@
         <TextView
             android:id="@+id/amountDetailedSummary"
             android:gravity="center"
-            android:textColor="#000000"
+            android:textColor="@color/fontColor"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_weight="10"
             android:text="Amount"
@@ -97,7 +98,7 @@
 
     <TextView
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
-        android:textColor="#000000"
+        android:textColor="@color/fontColor"
         android:layout_weight="5"
         android:text="Notes:"
         android:layout_width="match_parent"
@@ -107,7 +108,7 @@
         android:padding="5dp"
         android:id="@+id/notesDetailedSummary"
         android:gravity="center_horizontal"
-        android:textColor="#000000"
+        android:textColor="@color/fontColor"
         android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
         android:layout_height="0dp"
