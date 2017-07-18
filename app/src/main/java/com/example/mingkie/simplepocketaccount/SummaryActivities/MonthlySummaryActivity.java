@@ -24,8 +24,10 @@ import com.example.mingkie.simplepocketaccount.Data.ActionDBHelper;
 import com.example.mingkie.simplepocketaccount.Data.Day;
 import com.example.mingkie.simplepocketaccount.Data.Expense;
 import com.example.mingkie.simplepocketaccount.Data.Income;
+import com.example.mingkie.simplepocketaccount.Data.Transaction;
 import com.example.mingkie.simplepocketaccount.Data.Week;
-import com.example.mingkie.simplepocketaccount.Dialogs.MonthYearDialog;
+import com.example.mingkie.simplepocketaccount.Dialogs.CustomDialog;
+import com.example.mingkie.simplepocketaccount.Dialogs.MonthYearCustomDialog;
 import com.example.mingkie.simplepocketaccount.MainActivities.SummaryActivity;
 import com.example.mingkie.simplepocketaccount.R;
 
@@ -40,9 +42,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by MingKie on 6/30/2017.
+ * This class activity displays the information of the selected month.
  */
-
 public class MonthlySummaryActivity extends AppCompatActivity {
     @BindView(R.id.monthYearMonthlySummary)
     TextView monthYear;
@@ -60,8 +61,13 @@ public class MonthlySummaryActivity extends AppCompatActivity {
     private final String INCOME = "Income";
     private final String EXPENSE = "Expense";
 
-    private Income totalIncome;
-    private Expense totalExpense;
+    private double[] incomeCategories;
+    private double[] expenseCategories;
+    private double[] incomePayments;
+    private double[] expensePayments;
+
+    private Transaction totalIncome;
+    private Transaction totalExpense;
 
     private Calendar calendar;
 
@@ -88,16 +94,14 @@ public class MonthlySummaryActivity extends AppCompatActivity {
     private MonthlySummaryAdapter weekMonthlySummaryAdapter;
     private WeeklySummaryAdapter dayMonthlySummaryAdapter;
 
-    private MonthYearDialog monthYearDialog;
+    private MonthYearCustomDialog monthYearDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monthly_summary);
-        // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_monthly_summary);
-
         ButterKnife.bind(this);
 
         days = new ArrayList<Day>();
@@ -109,13 +113,18 @@ public class MonthlySummaryActivity extends AppCompatActivity {
         expenseTotal = 0;
         netTotal = 0;
 
-        totalIncome = new Income();
-        totalExpense = new Expense();
+        expenseCategories = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        incomeCategories = new double[]{0, 0, 0, 0, 0, 0,};
+        expensePayments = new double[]{0, 0, 0, 0};
+        incomePayments = new double[]{0, 0, 0, 0};
+
+        totalIncome = new Income(incomeCategories, incomePayments);
+        totalExpense = new Expense(expenseCategories, expensePayments);
 
         actionDBHelper = new ActionDBHelper(this);
         db = actionDBHelper.getReadableDatabase();
 
-        monthYearDialog = new MonthYearDialog(this);
+        monthYearDialog = new MonthYearCustomDialog(this);
 
         Intent intent = getIntent();
         year = intent.getIntExtra("year", 0);
@@ -134,6 +143,7 @@ public class MonthlySummaryActivity extends AppCompatActivity {
         loadView();
 
         monthYear.setText(MONTHS[month] + " " + year);
+        // month and year picker dialog
         monthYearDialog.build(new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -145,8 +155,13 @@ public class MonthlySummaryActivity extends AppCompatActivity {
                 year = selectedYear;
                 days.clear();
                 weeks.clear();
-                totalIncome = new Income();
-                totalExpense = new Expense();
+                expenseCategories = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                incomeCategories = new double[]{0, 0, 0, 0, 0, 0,};
+                expensePayments = new double[]{0, 0, 0, 0};
+                incomePayments = new double[]{0, 0, 0, 0};
+
+                totalIncome = new Income(incomeCategories, incomePayments);
+                totalExpense = new Expense(expenseCategories, expensePayments);
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, month);
                 calendar.set(Calendar.DAY_OF_MONTH, 1);
@@ -161,6 +176,7 @@ public class MonthlySummaryActivity extends AppCompatActivity {
             }
         }, null);
 
+        // When an item of the list view is selected. (Week or Day)
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -192,6 +208,9 @@ public class MonthlySummaryActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Toggle between Week and Day
+     */
     @OnClick(R.id.weekDayMonthlySummary)
     public void weekOrDayClicked() {
         if (displayingWeek) {
@@ -201,6 +220,11 @@ public class MonthlySummaryActivity extends AppCompatActivity {
             listView.setAdapter(weekMonthlySummaryAdapter);
             displayingWeek = true;
         }
+    }
+
+    @OnClick(R.id.monthYearMonthlySummary)
+    public void monthYearClicked() {
+        monthYearDialog.show();
     }
 
     public Day findDay(int position) {
@@ -221,11 +245,6 @@ public class MonthlySummaryActivity extends AppCompatActivity {
             }
         }
         return index;
-    }
-
-    @OnClick(R.id.monthYearMonthlySummary)
-    public void monthYearClicked() {
-        monthYearDialog.show();
     }
 
     private void initializeDay() {
@@ -278,8 +297,25 @@ public class MonthlySummaryActivity extends AppCompatActivity {
         }
     }
 
-    private Income loadIncome(boolean isWeek, int weekNum, int chosenYear, int chosenMonth, int chosenDay) {
-        Income income = new Income();
+    /**
+     * Load income data from the table.
+     * @param isWeek
+     *          true if it's to create weeks; otherwise, false
+     * @param weekNum
+     *          week of month
+     * @param chosenYear
+     *          year
+     * @param chosenMonth
+     *          month
+     * @param chosenDay
+     *          day of month
+     * @return
+     *          income
+     */
+    private Transaction loadIncome(boolean isWeek, int weekNum, int chosenYear, int chosenMonth, int chosenDay) {
+        double[] incomeCategories = {0,0,0,0,0,0,};
+        double[] incomePayments = {0,0,0,0};
+        Transaction income = new Income(incomeCategories, incomePayments);
         String[] projection = {
                 ActionContract.ActionEntry._ID,
                 ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE,
@@ -353,9 +389,25 @@ public class MonthlySummaryActivity extends AppCompatActivity {
         return income;
     }
 
-    private Expense loadExpense(boolean isWeek, int weekNum, int chosenYear, int chosenMonth, int chosenDay) {
-
-        Expense expense = new Expense();
+    /**
+     * Load expense data from the table.
+     * @param isWeek
+     *          true if it's to create weeks; otherwise, false
+     * @param weekNum
+     *          week of month
+     * @param chosenYear
+     *          year
+     * @param chosenMonth
+     *          month
+     * @param chosenDay
+     *          day of month
+     * @return
+     *          expense
+     */
+    private Transaction loadExpense(boolean isWeek, int weekNum, int chosenYear, int chosenMonth, int chosenDay) {
+        double[] expenseCategories = {0,0,0,0,0,0,0,0,0,0};
+        double[] expensePayments = {0,0,0,0};
+        Transaction expense = new Expense(expenseCategories, expensePayments);
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -398,7 +450,6 @@ public class MonthlySummaryActivity extends AppCompatActivity {
         );
 
         while(cursor.moveToNext()) {
-
             String actionType = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE));
             String category = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_CATEGORY));
             String payment = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_PAYMENT));

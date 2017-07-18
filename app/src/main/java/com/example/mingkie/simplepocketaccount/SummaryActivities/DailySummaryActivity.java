@@ -23,6 +23,7 @@ import com.example.mingkie.simplepocketaccount.Data.ActionContract;
 import com.example.mingkie.simplepocketaccount.Data.ActionDBHelper;
 import com.example.mingkie.simplepocketaccount.Data.Expense;
 import com.example.mingkie.simplepocketaccount.Data.Income;
+import com.example.mingkie.simplepocketaccount.Data.Transaction;
 import com.example.mingkie.simplepocketaccount.MainActivities.SummaryActivity;
 import com.example.mingkie.simplepocketaccount.R;
 
@@ -36,9 +37,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by MingKie on 6/25/2017.
+ * This class activity displays all the information about the selected date.
  */
-
 public class DailySummaryActivity extends AppCompatActivity {
     @BindView(R.id.dailySummaryDate)
     TextView date;
@@ -60,12 +60,17 @@ public class DailySummaryActivity extends AppCompatActivity {
     private final String INCOME = "Income";
     private final String EXPENSE = "Expense";
 
-    private Income income;
-    private Expense expense;
+    private Transaction income;
+    private Transaction expense;
 
     private int selectedYear;
     private int selectedMonth;
     private int selectedDayOfMonth;
+
+    private double[] incomeCategories;
+    private double[] expenseCategories;
+    private double[] incomePayments;
+    private double[] expensePayments;
 
     private double incomeTotal;
     private double expenseTotal;
@@ -85,10 +90,10 @@ public class DailySummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_daily_summary);
-        // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_daily_summary);
         ButterKnife.bind(this);
 
+        // To load data
         actionDBHelper = new ActionDBHelper(this);
         db = actionDBHelper.getReadableDatabase();
 
@@ -102,8 +107,13 @@ public class DailySummaryActivity extends AppCompatActivity {
         expenseTotal = 0;
         netTotal = 0;
 
-        income = new Income();
-        expense = new Expense();
+        expenseCategories = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        incomeCategories = new double[]{0, 0, 0, 0, 0, 0,};
+        expensePayments = new double[]{0, 0, 0, 0};
+        incomePayments = new double[]{0, 0, 0, 0};
+
+        income = new Income(incomeCategories, incomePayments);
+        expense = new Expense(expenseCategories, expensePayments);
 
         Intent intent = getIntent();
         selectedYear = intent.getIntExtra("year", 0);
@@ -136,10 +146,11 @@ public class DailySummaryActivity extends AppCompatActivity {
             }
         };
 
+        // When an item of the list view is selected
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("TEST", "Yearly Summary item clicked");
+                Log.i("DailySummary", "an item is selected");
                 if (displayingExpense) {
                     Intent intent = new Intent(DailySummaryActivity.this, DetailedSummaryActivity.class);
                     intent.putExtra("title", "Expense");
@@ -163,7 +174,6 @@ public class DailySummaryActivity extends AppCompatActivity {
                     intent.putExtra("notes", incomeDailySummaryAdapter.getItem(position).getNotes());
                     startActivity(intent);
                 }
-
             }
         });
     }
@@ -176,9 +186,13 @@ public class DailySummaryActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * Toggle between Income and Expense
+     */
     @OnClick(R.id.expenseIncomeDailySummary)
     public void expenseOrIncomeClicked() {
         if (displayingExpense) {
+            //Log.d("", "");
             listView.setAdapter(incomeDailySummaryAdapter);
             displayingExpense = false;
         } else {
@@ -187,8 +201,15 @@ public class DailySummaryActivity extends AppCompatActivity {
         }
     }
 
-    private Income loadIncome() {
-        Income income = new Income();
+    /**
+     * Load income data from the table
+     * @return
+     *      income
+     */
+    private Transaction loadIncome() {
+        double[] incomeCategories = {0,0,0,0,0,0,};
+        double[] incomePayments = {0,0,0,0};
+        Transaction income = new Income(incomeCategories, incomePayments);
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -255,8 +276,15 @@ public class DailySummaryActivity extends AppCompatActivity {
         return income;
     }
 
-    private Expense loadExpense() {
-        Expense expense = new Expense();
+    /**
+     * Load expense data from the table
+     * @return
+     *      expense
+     */
+    private Transaction loadExpense() {
+        double[] expenseCategories = {0,0,0,0,0,0,0,0,0,0};
+        double[] expensePayments = {0,0,0,0};
+        Transaction expense = new Expense(expenseCategories, expensePayments);
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -323,7 +351,7 @@ public class DailySummaryActivity extends AppCompatActivity {
         return expense;
     }
 
-    private void loadView(Income income, Expense expense) {
+    private void loadView(Transaction income, Transaction expense) {
         this.income = income;
         this.expense = expense;
         expenseTotal = expense.getTotalAmount();

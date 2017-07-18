@@ -3,9 +3,9 @@ package com.example.mingkie.simplepocketaccount.Data;
 import android.provider.BaseColumns;
 
 /**
- * Created by MingKie on 7/12/2017.
+ * Used Singleton design pattern to create only one instance.
+ * Needed field names to create a SQLite database table.
  */
-
 public class ActionContract {
     // To prevent someone from accidentally instantiating the contract class,
     // make the constructor private.

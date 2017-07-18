@@ -18,9 +18,8 @@ import java.math.RoundingMode;
 import java.util.List;
 
 /**
- * Created by MingKie on 7/13/2017.
+ * This class is used for monthly summary activity to display a list of weeks.
  */
-
 public class MonthlySummaryAdapter extends ArrayAdapter<Week> {
     private Context context;
     private List<Week> data;
@@ -39,9 +38,12 @@ public class MonthlySummaryAdapter extends ArrayAdapter<Week> {
         TextView week = (TextView) view.findViewById(R.id.weekMonthlyListView);
         TextView income = (TextView) view.findViewById(R.id.incomeMonthlyListView);
         TextView expense = (TextView) view.findViewById(R.id.expenseMonthlyListView);
+        // Week#
         week.setText("Week " + data.get(position).getWeekOfMonth());
+        // Truncate double
         Double truncatedIncomeAmount = BigDecimal.valueOf(data.get(position).getIncome().getTotalAmount()).setScale(3, RoundingMode.HALF_UP).doubleValue();
         Double truncatedExpenseAmount = BigDecimal.valueOf(data.get(position).getExpense().getTotalAmount()).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        // Amounts
         income.setText(truncatedIncomeAmount + "");
         expense.setText(truncatedExpenseAmount + "");
         return view;

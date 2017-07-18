@@ -24,6 +24,7 @@ import com.example.mingkie.simplepocketaccount.Data.ActionDBHelper;
 import com.example.mingkie.simplepocketaccount.Data.Day;
 import com.example.mingkie.simplepocketaccount.Data.Expense;
 import com.example.mingkie.simplepocketaccount.Data.Income;
+import com.example.mingkie.simplepocketaccount.Data.Transaction;
 import com.example.mingkie.simplepocketaccount.MainActivities.SummaryActivity;
 import com.example.mingkie.simplepocketaccount.R;
 
@@ -38,9 +39,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by MingKie on 6/30/2017.
+ * This class activity displays the information of the selected week.
  */
-
 public class WeeklySummaryActivity extends AppCompatActivity {
     @BindView(R.id.weekWeeklySummary)
     TextView week;
@@ -53,13 +53,10 @@ public class WeeklySummaryActivity extends AppCompatActivity {
     @BindView(R.id.listViewWeeklySummary)
     ListView listView;
 
-    private int[] lastDates = new int[]{31,28,31,30,
-            31,30,31,31,
-            30,31,30,31,};
     private int weekOfYear;
 
-    private Income totalIncome;
-    private Expense totalExpense;
+    private Transaction totalIncome;
+    private Transaction totalExpense;
 
     private final String INCOME = "Income";
     private final String EXPENSE = "Expense";
@@ -70,6 +67,11 @@ public class WeeklySummaryActivity extends AppCompatActivity {
     private final int NUM_DAYS = 7;
     private final String[] DAYS = new String[]{"Sunday", "Monday", "Tuesday", "Wednesday",
             "Thursday", "Friday", "Saturday"};
+
+    private double[] incomeCategories;
+    private double[] expenseCategories;
+    private double[] incomePayments;
+    private double[] expensePayments;
 
     private double incomeTotal;
     private double expenseTotal;
@@ -89,9 +91,7 @@ public class WeeklySummaryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_summary);
-        // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_weekly_summary);
-
         ButterKnife.bind(this);
 
         days = new ArrayList<Day>();
@@ -104,15 +104,18 @@ public class WeeklySummaryActivity extends AppCompatActivity {
         expenseTotal = 0;
         netTotal = 0;
 
-        totalIncome = new Income();
-        totalExpense = new Expense();
+        expenseCategories = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        incomeCategories = new double[]{0, 0, 0, 0, 0, 0,};
+        expensePayments = new double[]{0, 0, 0, 0};
+        incomePayments = new double[]{0, 0, 0, 0};
 
+        totalIncome = new Income(incomeCategories, incomePayments);
+        totalExpense = new Expense(expenseCategories, expensePayments);
 
         Intent intent = getIntent();
         selectedYear = intent.getIntExtra("year", 0);
         selectedMonth = intent.getIntExtra("month", 0);
         selectedDayOfMonth = intent.getIntExtra("dayOfMonth", 0);
-
 
         calendar.set(selectedYear, selectedMonth, selectedDayOfMonth);
         weekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
@@ -155,17 +158,21 @@ public class WeeklySummaryActivity extends AppCompatActivity {
                 incomeTotal = 0;
                 expenseTotal = 0;
                 netTotal = 0;
+                expenseCategories = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                incomeCategories = new double[]{0, 0, 0, 0, 0, 0,};
+                expensePayments = new double[]{0, 0, 0, 0};
+                incomePayments = new double[]{0, 0, 0, 0};
 
-                totalIncome = new Income();
-                totalExpense = new Expense();
+                totalIncome = new Income(incomeCategories, incomePayments);
+                totalExpense = new Expense(expenseCategories, expensePayments);
                 days.clear();
                 initializeDays();
                 addDay();
                 loadView();
-
             }
         };
 
+        // When an item of the list view is selected.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -206,6 +213,9 @@ public class WeeklySummaryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Add days to day list.
+     */
     private void addDay() {
         for (int i = 0; i < days.size(); ++i) {
             int chosenYear = days.get(i).getYear();
@@ -216,9 +226,21 @@ public class WeeklySummaryActivity extends AppCompatActivity {
         }
     }
 
-    private Income loadIncome(int chosenYear, int chosenMonth, int chosenDay) {
-
-        Income income = new Income();
+    /**
+     * Load income data from the table
+     * @param chosenYear
+     *          year
+     * @param chosenMonth
+     *          month
+     * @param chosenDay
+     *          day of month
+     * @return
+     *          income
+     */
+    private Transaction loadIncome(int chosenYear, int chosenMonth, int chosenDay) {
+        double[] incomeCategories = {0,0,0,0,0,0,};
+        double[] incomePayments = {0,0,0,0};
+        Transaction income = new Income(incomeCategories, incomePayments);
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -253,7 +275,6 @@ public class WeeklySummaryActivity extends AppCompatActivity {
         );
 
         while(cursor.moveToNext()) {
-
             String actionType = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE));
             String category = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_CATEGORY));
             String payment = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_PAYMENT));
@@ -280,15 +301,26 @@ public class WeeklySummaryActivity extends AppCompatActivity {
             totalIncome.add(category, payment, amount);
             Log.i("type: ", action.getCategory() + "");
             Log.i("amount: ", action.getAmount() + "");
-
         }
         cursor.close();
         return income;
     }
 
-    private Expense loadExpense(int chosenYear, int chosenMonth, int chosenDay) {
-        Expense expense = new Expense();
-
+    /**
+     * Load expense data from the table
+     * @param chosenYear
+     *          year
+     * @param chosenMonth
+     *          month
+     * @param chosenDay
+     *          day of month
+     * @return
+     *          expense
+     */
+    private Transaction loadExpense(int chosenYear, int chosenMonth, int chosenDay) {
+        double[] expenseCategories = {0,0,0,0,0,0,0,0,0,0};
+        double[] expensePayments = {0,0,0,0};
+        Transaction expense = new Expense(expenseCategories, expensePayments);
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -410,6 +442,4 @@ public class WeeklySummaryActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-
 }

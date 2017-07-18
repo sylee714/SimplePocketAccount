@@ -14,9 +14,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
- * Created by MingKie on 7/16/2017.
+ * This class activity displays the specific information about the selected transaction.
  */
-
 public class DetailedSummaryActivity extends AppCompatActivity {
     @BindView(R.id.dateDetailedSummary)
     TextView dateTextView;
@@ -43,7 +42,6 @@ public class DetailedSummaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed_summary);
         ButterKnife.bind(this);
-        //setTitle(R.string.title_activity_detailed_summary);
         Intent intent = getIntent();
         title = intent.getStringExtra("title");
         setTitle(title);
@@ -55,7 +53,7 @@ public class DetailedSummaryActivity extends AppCompatActivity {
         notes = intent.getStringExtra("notes");
         amount = intent.getDoubleExtra("amount", 0);
         Double truncatedAmount = BigDecimal.valueOf(amount).setScale(4, RoundingMode.HALF_UP).doubleValue();
-        dateTextView.setText(month + "/" + day + "/" + year);
+        dateTextView.setText((month + 1) + "/" + day + "/" + year);
         categoryTextView.setText(category);
         paymentTextView.setText(payment);
         notesTextView.setText(notes);

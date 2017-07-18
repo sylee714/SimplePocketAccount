@@ -3,7 +3,6 @@ package com.example.mingkie.simplepocketaccount.Dialogs;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.view.View;
 import android.widget.NumberPicker;
 
@@ -12,27 +11,15 @@ import com.example.mingkie.simplepocketaccount.R;
 import java.util.Calendar;
 
 /**
- * Created by MingKie on 7/7/2017.
+ * This class is a custom month and year picker dialog.
  */
-
-public class MonthYearDialog {
-    private static final int MIN_YEAR = 1970;
-
-    private static final int MAX_YEAR = 2099;
-
-    private static final String[] PICKER_DISPLAY_MONTHS_NAMES = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
-            "Nov", "Dec" };
-
-    private static final String[] MONTHS = new String[] { "January", "February", "March", "April", "May", "June", "July", "August", "September",
-            "October", "November", "December" };
-
-    private View view;
-    private Activity activity;
-    private AlertDialog.Builder builder;
-    private AlertDialog pickerDialog;
-    private boolean build = false;
+public class MonthYearCustomDialog extends CustomDialog {
     private NumberPicker monthNumberPicker;
-    private NumberPicker yearNumberPicker;
+    private static final String[] PICKER_DISPLAY_MONTHS_NAMES = new String[] { "Jan", "Feb", "Mar",
+            "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+
+    private static final String[] MONTHS = new String[] { "January", "February", "March", "April",
+            "May", "June", "July", "August", "September", "October", "November", "December" };
 
     /**
      * Instantiates a new month year picker.
@@ -40,9 +27,9 @@ public class MonthYearDialog {
      * @param activity
      *            the activity
      */
-    public MonthYearDialog(Activity activity) {
-        this.activity = activity;
-        this.view = activity.getLayoutInflater().inflate(R.layout.activity_month_year_dialog, null);
+    public MonthYearCustomDialog(Activity activity) {
+        super(activity);
+        setView(activity.getLayoutInflater().inflate(R.layout.activity_month_year_dialog, null));
     }
 
     /**
@@ -56,8 +43,6 @@ public class MonthYearDialog {
     public void build(DialogInterface.OnClickListener positiveButtonListener, DialogInterface.OnClickListener negativeButtonListener) {
         this.build(-1, -1, positiveButtonListener, negativeButtonListener);
     }
-
-    private int currentYear;
 
     private int currentMonth;
 
@@ -79,14 +64,14 @@ public class MonthYearDialog {
                       DialogInterface.OnClickListener negativeButtonListener) {
         final Calendar instance = Calendar.getInstance();
         currentMonth = instance.get(Calendar.MONTH);
-        currentYear = instance.get(Calendar.YEAR);
+        setCurrentYear(instance.get(Calendar.YEAR));
 
         if (selectedMonth > 11 || selectedMonth < -1) {
             selectedMonth = currentMonth;
         }
 
-        if (selectedYear < MIN_YEAR || selectedYear > MAX_YEAR) {
-            selectedYear = currentYear;
+        if (selectedYear < getMinYear() || selectedYear > getMaxYear()) {
+            selectedYear = getCurrentYear();
         }
 
         if (selectedMonth == -1) {
@@ -94,47 +79,33 @@ public class MonthYearDialog {
         }
 
         if (selectedYear == -1) {
-            selectedYear = currentYear;
+            selectedYear = getCurrentYear();
         }
 
-        builder = new AlertDialog.Builder(activity);
-        builder.setView(view);
+        setBuilder(new AlertDialog.Builder(getActivity()));
+        getBuilder().setView(getView());
 
-        monthNumberPicker = (NumberPicker) view.findViewById(R.id.monthNumberPicker);
+        monthNumberPicker = (NumberPicker) getView().findViewById(R.id.monthNumberPicker);
         monthNumberPicker.setDisplayedValues(PICKER_DISPLAY_MONTHS_NAMES);
 
         monthNumberPicker.setMinValue(0);
         monthNumberPicker.setMaxValue(MONTHS.length - 1);
 
-        yearNumberPicker = (NumberPicker) view.findViewById(R.id.yearNumberPicker);
-        yearNumberPicker.setMinValue(MIN_YEAR);
-        yearNumberPicker.setMaxValue(MAX_YEAR);
+        setYearNumberPicker((NumberPicker) getView().findViewById(R.id.yearNumberPicker));
+        getYearNumberPicker().setMinValue(getMinYear());
+        getYearNumberPicker().setMaxValue(getMaxYear());
 
         monthNumberPicker.setValue(selectedMonth);
-        yearNumberPicker.setValue(selectedYear);
+        getYearNumberPicker().setValue(selectedYear);
 
         monthNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
-        yearNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
+        getYearNumberPicker().setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
 
-        builder.setTitle(activity.getString(R.string.alert_dialog_title));
-        builder.setPositiveButton(activity.getString(R.string.positive_button_text), positiveButtonListener);
-        builder.setNegativeButton(activity.getString(R.string.negative_button_text), negativeButtonListener);
-        build = true;
-        pickerDialog = builder.create();
-    }
-
-    /**
-     * Show month year picker dialog.
-     */
-    public void show() {
-        if (build) {
-            pickerDialog.show();
-            pickerDialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.rgb (0, 153, 153));
-            pickerDialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.rgb (0, 153, 153));
-            //pickerDialog.show();
-        } else {
-            throw new IllegalStateException("Build picker before use");
-        }
+        getBuilder().setTitle(getActivity().getString(R.string.alert_dialog_title));
+        getBuilder().setPositiveButton(getActivity().getString(R.string.positive_button_text), positiveButtonListener);
+        getBuilder().setNegativeButton(getActivity().getString(R.string.negative_button_text), negativeButtonListener);
+        setBuild(true);
+        setPickerDialog(getBuilder().create());
     }
 
     /**
@@ -165,24 +136,6 @@ public class MonthYearDialog {
     }
 
     /**
-     * Gets the selected year.
-     *
-     * @return the selected year
-     */
-    public int getSelectedYear() {
-        return yearNumberPicker.getValue();
-    }
-
-    /**
-     * Gets the current year.
-     *
-     * @return the current year
-     */
-    public int getCurrentYear() {
-        return currentYear;
-    }
-
-    /**
      * Gets the current month.
      *
      * @return the current month
@@ -202,16 +155,6 @@ public class MonthYearDialog {
     }
 
     /**
-     * Sets the year value changed listener.
-     *
-     * @param valueChangeListener
-     *            the new year value changed listener
-     */
-    public void setYearValueChangedListener(NumberPicker.OnValueChangeListener valueChangeListener) {
-        yearNumberPicker.setOnValueChangedListener(valueChangeListener);
-    }
-
-    /**
      * Sets the month wrap selector wheel.
      *
      * @param wrapSelectorWheel
@@ -219,15 +162,5 @@ public class MonthYearDialog {
      */
     public void setMonthWrapSelectorWheel(boolean wrapSelectorWheel) {
         monthNumberPicker.setWrapSelectorWheel(wrapSelectorWheel);
-    }
-
-    /**
-     * Sets the year wrap selector wheel.
-     *
-     * @param wrapSelectorWheel
-     *            the new year wrap selector wheel
-     */
-    public void setYearWrapSelectorWheel(boolean wrapSelectorWheel) {
-        yearNumberPicker.setWrapSelectorWheel(wrapSelectorWheel);
     }
 }

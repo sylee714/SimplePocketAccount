@@ -12,16 +12,16 @@
         ></item>
     <item
         android:enabled="true"
-        android:id="@+id/action_add_income"
-        android:icon="@drawable/ic_income"
-        android:title="@string/add_income"
+        android:id="@+id/action_view_summary"
+        android:icon="@drawable/ic_view_summary"
+        android:title="@string/view_summary"
         app:showAsAction="ifRoom"
         ></item>
     <item
         android:enabled="true"
-        android:id="@+id/action_view_summary"
-        android:icon="@drawable/ic_view_summary"
-        android:title="@string/view_summary"
+        android:id="@+id/action_add_income"
+        android:icon="@drawable/ic_income"
+        android:title="@string/add_income"
         app:showAsAction="ifRoom"
         ></item>
 

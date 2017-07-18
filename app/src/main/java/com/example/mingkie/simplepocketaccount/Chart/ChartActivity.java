@@ -25,31 +25,29 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import java.util.ArrayList;
 
 /**
- * Created by MingKie on 7/14/2017.
+ * This class represents chart activity which displays 4 types of chart.
  */
-
 public class ChartActivity extends AppCompatActivity {
-
     private final String[] incomeCategories = {"Salary", "Business/Profession", "Capital Gain",
             "House Property", "Gifts", "Others"};
     private final String[] expenseCategories = {"Housing", "Utilities", "Food", "Clothing",
             "Medical/Healthcare", "Donations/Gifts to Charity", "Savings and Insurance",
             "Entertainment and Recreation", "Transportation", "Personal/Debt Payments/Misc"};
     private final String[] paymentMethods = {"Cash", "Check", "Debit/Credit Card", "Others"};
+
     private String[] xData;
     private double[] yData;
+
     private double[] incomeAmounts;
     private double[] incomePaymentAmounts;
     private double[] expenseAmounts;
     private double[] expensePaymentAmounts;
+
     private String chartType;
     private boolean displayingPayment;
-
     private PieChart pieChart;
     private Spinner chartTypeSpinner;
-
     private ArrayAdapter<CharSequence> chartTypeAdapter;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,17 +85,18 @@ public class ChartActivity extends AppCompatActivity {
         pieChart.setTransparentCircleAlpha(0);
         pieChart.setHoleRadius(0f);
         pieChart.setDescription(null);
-        //addDataSet(expenseAmounts, expenseCategories);
 
+        // Display a toast upon a selection
         pieChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry e, Highlight h) {
                 Log.d("TEST", "valuedSelected");
                 Log.d("TEST", "e" + e.toString());
                 Log.d("TEST", "h" + h.toString());
+                // Find the index of the amount
                 int index = e.toString().indexOf("y: ");
                 String amount = e.toString().substring(index + 3);
-
+                // Find the corresponding name
                 for (int i = 0; i < yData.length; ++i) {
                     if ((float) yData[i] == Float.parseFloat(amount)) {
                         index = i;
@@ -105,21 +104,16 @@ public class ChartActivity extends AppCompatActivity {
                     }
                 }
                 String name = xData[index];
-                //int newIndex = Integer.parseInt(indexOfY);
                 if (displayingPayment) {
                     Toast.makeText(ChartActivity.this, "Payment Method: " + name + "\n" + "Amount: $" + amount, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(ChartActivity.this, "Category: " + name + "\n" + "Amount: $" + amount, Toast.LENGTH_SHORT).show();
                 }
-
             }
-
             @Override
             public void onNothingSelected() {
-
             }
         });
-
     }
 
     public void chartTypeSpinnerSetOnItemSelected() {
@@ -180,10 +174,9 @@ public class ChartActivity extends AppCompatActivity {
         colors.add(Color.CYAN);
         colors.add(Color.YELLOW);
         colors.add(Color.MAGENTA);
-        colors.add(Color.rgb(255, 0, 255));
+        colors.add(Color.rgb(255, 204, 204));
         colors.add(Color.rgb(51, 102, 0));
         colors.add(Color.rgb(0, 102, 102));
-
 
         pieDataSet.setColors(colors);
 
@@ -196,6 +189,5 @@ public class ChartActivity extends AppCompatActivity {
         PieData pieData = new PieData(pieDataSet);
         pieChart.setData(pieData);
         pieChart.invalidate();
-
     }
 }

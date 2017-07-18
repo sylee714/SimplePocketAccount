@@ -1,9 +1,9 @@
 package com.example.mingkie.simplepocketaccount.Data;
 
 /**
- * Created by MingKie on 7/12/2017.
+ * Could not named as Transaction because it was a reserved word in SQLite.
+ * This class represents each transaction.
  */
-
 public class Action {
     private String actionType;
     private int year;
@@ -16,10 +16,6 @@ public class Action {
     private String payment;
     private String notes;
     private double amount;
-
-    public Action() {
-
-    }
 
     public String getActionType() {
         return actionType;

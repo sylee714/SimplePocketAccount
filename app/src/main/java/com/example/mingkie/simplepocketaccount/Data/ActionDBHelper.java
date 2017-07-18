@@ -5,9 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
- * Created by MingKie on 7/12/2017.
+ * Helper class to insert and load data.
  */
-
 public class ActionDBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Action.db";

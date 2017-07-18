@@ -18,9 +18,8 @@ import java.math.RoundingMode;
 import java.util.List;
 
 /**
- * Created by MingKie on 7/13/2017.
+ * This class is used for yearly summary activity to display a list of months.
  */
-
 public class YearlySummaryAdapter extends ArrayAdapter<Month> {
     private Context context;
     private List<Month> data;
@@ -39,9 +38,12 @@ public class YearlySummaryAdapter extends ArrayAdapter<Month> {
         TextView month = (TextView) view.findViewById(R.id.monthYearlyListView);
         TextView income = (TextView) view.findViewById(R.id.incomeYearlyListView);
         TextView expense = (TextView) view.findViewById(R.id.expenseYearlySummary);
+        // Month
         month.setText(data.get(position).getMonthString());
+        // Truncate double
         Double truncatedIncomeAmount = BigDecimal.valueOf(data.get(position).getIncome().getTotalAmount()).setScale(3, RoundingMode.HALF_UP).doubleValue();
         Double truncatedExpenseAmount = BigDecimal.valueOf(data.get(position).getExpense().getTotalAmount()).setScale(3, RoundingMode.HALF_UP).doubleValue();
+        // Amount
         income.setText(truncatedIncomeAmount + "");
         expense.setText(truncatedExpenseAmount + "");
         return view;

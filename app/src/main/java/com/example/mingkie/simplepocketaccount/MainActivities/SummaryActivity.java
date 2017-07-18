@@ -14,12 +14,8 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.mingkie.simplepocketaccount.Dialogs.MonthYearDialog;
+import com.example.mingkie.simplepocketaccount.Dialogs.MonthYearCustomDialog;
 import com.example.mingkie.simplepocketaccount.R;
-import com.example.mingkie.simplepocketaccount.SelectActivities.SelectDateActivity;
-import com.example.mingkie.simplepocketaccount.SelectActivities.SelectMonthYearActivity;
-import com.example.mingkie.simplepocketaccount.SelectActivities.SelectWeekActivity;
-import com.example.mingkie.simplepocketaccount.SelectActivities.SelectYearActivity;
 import com.example.mingkie.simplepocketaccount.SummaryActivities.DailySummaryActivity;
 import com.example.mingkie.simplepocketaccount.SummaryActivities.MonthlySummaryActivity;
 import com.example.mingkie.simplepocketaccount.SummaryActivities.WeeklySummaryActivity;
@@ -32,9 +28,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by MingKie on 6/25/2017.
+ * This class is Summary Activity that lets the user to choose
+ * a type of summary that the user wants to see.
  */
-
 public class SummaryActivity extends AppCompatActivity {
     @BindView(R.id.summarySpinner)
     Spinner summarySpinner;
@@ -51,45 +47,27 @@ public class SummaryActivity extends AppCompatActivity {
     private ArrayAdapter<CharSequence> adapter;
     private String summarySelected;
 
-    private MonthYearDialog monthYearDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_summary);
         ButterKnife.bind(this);
-        // Sets the title of the activity as 'Summary'
         setTitle(R.string.title_activity_summary);
         displayBottomBar();
 
+        // To pass current date to the next activity
         calendar = Calendar.getInstance();
         year = calendar.get(Calendar.YEAR);
         month = calendar.get(Calendar.MONTH);
         dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
 
+        // Spinner
         adapter = ArrayAdapter.createFromResource(this, R.array.list_summary_type, R.layout.spinner_item);
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
         summarySpinner.setAdapter(adapter);
         summarySpinnerSetOnItemSelected();
-
     }
 
-
-    public void summarySpinnerSetOnItemSelected() {
-        summarySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                summarySelected = (String) parent.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
-    }
-
-    // method: submitButtonOnClick()
-    // purpose: Moves on to selected summary activity when submit button is clicked.
     @OnClick(R.id.submitSummaryButton)
     public void submitButtonOnClick() {
         Intent intent;
@@ -132,8 +110,19 @@ public class SummaryActivity extends AppCompatActivity {
         }
     }
 
-    // method: displayBottomBar()
-    // purpose: Displays bottom navigation bar.
+    public void summarySpinnerSetOnItemSelected() {
+        summarySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                summarySelected = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+    }
+
     public void displayBottomBar() {
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -143,12 +132,14 @@ public class SummaryActivity extends AppCompatActivity {
                 {
                     case R.id.action_add_expense:
                         Toast.makeText(SummaryActivity.this, "Action Add Action Clicked", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(SummaryActivity.this, ExpenseActivity.class);
+                        intent = new Intent(SummaryActivity.this, ExpenseIncomeActivity.class);
+                        intent.putExtra("displayExpense", true);
                         startActivity(intent);
                         break;
                     case R.id.action_add_income:
                         Toast.makeText(SummaryActivity.this, "Action Add Income Clicked", Toast.LENGTH_SHORT).show();
-                        intent = new Intent(SummaryActivity.this, IncomeActivity.class);
+                        intent = new Intent(SummaryActivity.this, ExpenseIncomeActivity.class);
+                        intent.putExtra("displayExpense", false);
                         startActivity(intent);
                         break;
                     case R.id.action_view_summary:

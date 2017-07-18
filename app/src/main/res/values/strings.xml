@@ -55,7 +55,7 @@
     <string name="select_year">Select Year</string>
     <string name="monthYear">Month Year</string>
 
-    <!-- MonthYear Dialog -->
+    <!-- MonthYear CustomDialog -->
     <string name="alert_dialog_title">Please Select</string>
     <string name="positive_button_text">Select</string>
     <string name="negative_button_text">Cancel</string>

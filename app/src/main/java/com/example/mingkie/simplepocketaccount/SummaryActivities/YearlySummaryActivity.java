@@ -23,7 +23,8 @@ import com.example.mingkie.simplepocketaccount.Data.ActionDBHelper;
 import com.example.mingkie.simplepocketaccount.Data.Expense;
 import com.example.mingkie.simplepocketaccount.Data.Income;
 import com.example.mingkie.simplepocketaccount.Data.Month;
-import com.example.mingkie.simplepocketaccount.Dialogs.YearDialog;
+import com.example.mingkie.simplepocketaccount.Data.Transaction;
+import com.example.mingkie.simplepocketaccount.Dialogs.YearCustomDialog;
 import com.example.mingkie.simplepocketaccount.MainActivities.SummaryActivity;
 import com.example.mingkie.simplepocketaccount.R;
 
@@ -37,9 +38,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * Created by MingKie on 6/30/2017.
+ * This class activity displays the information of the selected year.
  */
-
 public class YearlySummaryActivity extends AppCompatActivity {
     @BindView(R.id.yearYearlySummary)
     TextView yearTextView;
@@ -55,7 +55,6 @@ public class YearlySummaryActivity extends AppCompatActivity {
     private final String INCOME = "Income";
     private final String EXPENSE = "Expense";
 
-    //private int month;
     private int year;
 
     private final int NUM_OF_MONTHS = 12;
@@ -65,27 +64,30 @@ public class YearlySummaryActivity extends AppCompatActivity {
 
     private List<Month> months;
 
+    private double[] incomeCategories;
+    private double[] expenseCategories;
+    private double[] incomePayments;
+    private double[] expensePayments;
+
     private double incomeTotal;
     private double expenseTotal;
     private double netTotal;
 
-    private Income totalIncome;
-    private Expense totalExpense;
+    private Transaction totalIncome;
+    private Transaction totalExpense;
 
     private SQLiteDatabase db;
     private ActionDBHelper actionDBHelper;
 
     private YearlySummaryAdapter yearlySummaryAdapter;
 
-    private YearDialog yearDialog;
+    private YearCustomDialog yearDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_yearly_summary);
-        // Sets the title of the activity as 'Add Expense'
         setTitle(R.string.title_activity_yearly_summary);
-
         ButterKnife.bind(this);
 
         months = new ArrayList<Month>();
@@ -94,8 +96,13 @@ public class YearlySummaryActivity extends AppCompatActivity {
         expenseTotal = 0;
         netTotal = 0;
 
-        totalIncome = new Income();
-        totalExpense = new Expense();
+        expenseCategories = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+        incomeCategories = new double[]{0, 0, 0, 0, 0, 0,};
+        expensePayments = new double[]{0, 0, 0, 0};
+        incomePayments = new double[]{0, 0, 0, 0};
+
+        totalIncome = new Income(incomeCategories, incomePayments);
+        totalExpense = new Expense(expenseCategories, expensePayments);
 
         actionDBHelper = new ActionDBHelper(this);
         db = actionDBHelper.getReadableDatabase();
@@ -107,7 +114,8 @@ public class YearlySummaryActivity extends AppCompatActivity {
         addMonth();
         loadView();
 
-        yearDialog = new YearDialog(this);
+        // year picker dialog
+        yearDialog = new YearCustomDialog(this);
         yearDialog.build(new DialogInterface.OnClickListener() {
 
             @Override
@@ -118,14 +126,19 @@ public class YearlySummaryActivity extends AppCompatActivity {
                 incomeTotal = 0;
                 expenseTotal = 0;
                 netTotal = 0;
-                totalIncome = new Income();
-                totalExpense = new Expense();
+                expenseCategories = new double[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+                incomeCategories = new double[]{0, 0, 0, 0, 0, 0,};
+                expensePayments = new double[]{0, 0, 0, 0};
+                incomePayments = new double[]{0, 0, 0, 0};
+                totalIncome = new Income(incomeCategories, incomePayments);
+                totalExpense = new Expense(expenseCategories, expensePayments);
                 months.clear();
                 addMonth();
                 loadView();
             }
         }, null);
 
+        // When an item of the list view is selected.
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -155,10 +168,17 @@ public class YearlySummaryActivity extends AppCompatActivity {
         }
     }
 
-    private Income loadIncome(int month) {
-
-        Income income = new Income();
-
+    /**
+     * Load income data from the table.
+     * @param month
+     *          month
+     * @return
+     *          income
+     */
+    private Transaction loadIncome(int month) {
+        double[] incomeCategories = {0,0,0,0,0,0,};
+        double[] incomePayments = {0,0,0,0};
+        Transaction income = new Income(incomeCategories, incomePayments);
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -192,7 +212,6 @@ public class YearlySummaryActivity extends AppCompatActivity {
         );
 
         while(cursor.moveToNext()) {
-
             String actionType = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE));
             String category = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_CATEGORY));
             String payment = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_PAYMENT));
@@ -225,9 +244,17 @@ public class YearlySummaryActivity extends AppCompatActivity {
         return income;
     }
 
-    private Expense loadExpense(int month) {
-
-        Expense expense = new Expense();
+    /**
+     * Load expense data from the table.
+     * @param month
+     *          month
+     * @return
+     *          expense
+     */
+    private Transaction loadExpense(int month) {
+        double[] expenseCategories = {0,0,0,0,0,0,0,0,0,0};
+        double[] expensePayments = {0,0,0,0};
+        Transaction expense = new Expense(expenseCategories, expensePayments);
 
         String[] projection = {
                 ActionContract.ActionEntry._ID,
@@ -261,7 +288,6 @@ public class YearlySummaryActivity extends AppCompatActivity {
         );
 
         while(cursor.moveToNext()) {
-
             String actionType = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_ACTIONTYPE));
             String category = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_CATEGORY));
             String payment = cursor.getString(cursor.getColumnIndexOrThrow(ActionContract.ActionEntry.COLUMN_NAME_PAYMENT));
