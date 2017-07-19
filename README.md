@@ -13,6 +13,43 @@ Before you start, you need:
 Download this repository:
   `$ git clone https://github.com/sylee714/SimplePocketAccount.git`
 ## Usage
+**Select Summary**
+
+<a href="url"><img src="https://github.com/sylee714/SimplePocketAccount/blob/master/app/src/main/screen_shots/device-2017-07-18-020418.png" height="384" width="216" ></a>
+
+  -Select a type of summary you want to see.
+  
+**Add Expense**
+
+<a href="url"><img src="https://github.com/sylee714/SimplePocketAccount/blob/master/app/src/main/screen_shots/device-2017-07-18-020627.png" height="384" width="216" ></a>
+
+  -Select a date and record your expense transaction.
+  
+**Add Income**
+
+<a href="url"><img src="https://github.com/sylee714/SimplePocketAccount/blob/master/app/src/main/screen_shots/device-2017-07-18-020637.png" height="384" width="216" ></a>
+
+  -Select a date and record your income transaction.
+  
+**Daily Summary**
+
+<a href="url"><img src="https://github.com/sylee714/SimplePocketAccount/blob/master/app/src/main/screen_shots/device-2017-07-18-020648.png" height="384" width="216" ></a>
+
+  -Change the date by clikcing on the date and selecting a new date (navigation in summary pages is similar). When you see a column
+  head with a '/', it means you can toggle between those two options. For Daily Summary, you can toggle between Expense/Income records.
+  
+**Detailed Summary**
+
+<a href="url"><img src="https://github.com/sylee714/SimplePocketAccount/blob/master/app/src/main/screen_shots/device-2017-07-18-020840.png" height="384" width="216" ></a>
+
+  -You will move to this page when you click a record in Daily Summary. Similar navigation is provided in all summary pages.
+  
+  
+**Chart**
+
+<a href="url"><img src="https://github.com/sylee714/SimplePocketAccount/blob/master/app/src/main/screen_shots/device-2017-07-18-020915.png" height="384" width="216" ></a>
+
+  -You can see different types of chart.
 
 ## Contributing
 1. Fork it!
@@ -20,10 +57,8 @@ Download this repository:
 3. Commit your changes: `git commit -am 'Add some feature'`
 4. Push to the branch: `git push origin my-new-feature`
 5. Submit a pull request :D
-## History
-TODO: Write history
 ## Credits
-TODO: Write credits
+  -Seungyun Lee - 07/19/2017 - `https://github.com/sylee714`
 ## License
-TODO: Write license
+This project is licensed under the MIT License - see the LICENSE.md file for details
 
